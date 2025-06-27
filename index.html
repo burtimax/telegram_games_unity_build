@@ -37,6 +37,15 @@
       <!-- unity-footer убран для соответствия второму файлу -->
     </div>
     <script>
+
+function handleFocus() {
+    if (myGameInstance) {
+      myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+    }
+  }
+
+  window.addEventListener('focus', handleFocus);
+
       var canvas = document.querySelector("#unity-canvas");
 
       function unityShowBanner(msg, type) {
@@ -87,12 +96,17 @@
 
       document.querySelector("#unity-loading-bar").style.display = "block";
 
+      var myGameInstance = null;
+
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+
+          myGameInstance = unityInstance;
+
           document.querySelector("#unity-loading-bar").style.display = "none";
           // document.querySelector("#unity-fullscreen-button").onclick = () => {
           //   unityInstance.SetFullscreen(1);
