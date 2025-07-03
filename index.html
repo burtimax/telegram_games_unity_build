@@ -46,7 +46,14 @@ function handleFocus() {
     }
   }
 
-  window.addEventListener('focus', handleFocus);
+function handleVisibilityChange() {
+  if (document.visibilityState === 'visible' && myGameInstance) {
+    myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+  }
+}
+
+document.addEventListener('visibilitychange', handleVisibilityChange);
+window.addEventListener('focus', handleFocus);
 
       var canvas = document.querySelector("#unity-canvas");
 
