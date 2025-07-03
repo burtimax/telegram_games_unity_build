@@ -69,19 +69,19 @@ function handleFocus() {
         updateBannerVisibility();
       }
 
-      var buildUrl = "Build";
+        var buildUrl = "Build";
         var loaderUrl = buildUrl + "/telegram_games_unity_build.loader.js";
-      var config = {
-        arguments: [],
-          dataUrl: buildUrl + "/telegram_games_unity_build.data.unityweb",
-          frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
-          codeUrl: buildUrl + "/telegram_games_unity_build.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DinoCarbone",
-        productName: "DailyRaffles",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
+        var config = {
+            arguments: [],
+            dataUrl: buildUrl + "/telegram_games_unity_build.data.unityweb",
+            frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
+            codeUrl: buildUrl + "/telegram_games_unity_build.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DinoCarbone",
+            productName: "DailyRaffles",
+            productVersion: "1.0",
+            showBanner: unityShowBanner,
+        };
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
