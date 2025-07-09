@@ -38,15 +38,22 @@
     </div>
     <script>
 
-        console.log(" === init 5 ===");
+        console.log(" === init 3.1 ===");
 
-//function handleFocus() {
-//    if (myGameInstance) {
-//      myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
-//    }
-//  }
+function handleFocus() {
+    if (myGameInstance) {
+      myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+    }
+        }
 
-//  window.addEventListener('focus', handleFocus);
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'visible' && myGameInstance) {
+                myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+            }
+        }
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', handleFocus);
 
       var canvas = document.querySelector("#unity-canvas");
 
