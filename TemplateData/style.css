@@ -49,19 +49,29 @@ body {
 }
 
 #unity-progress-bar-empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 512px;
+    position: absolute;
+    left: 50px;
+    right: 50px;
     height: 28px;
-    margin: 10px auto 0;
+    bottom: 20%; /* Позиционирование по вертикали */
+    background: url('progress-bar-empty.png') no-repeat center;
+    background-size: 100% 100%;
+    transform: translateX(-50%);
+    margin-left: 50%;
+    margin-right: 50%;
 }
 
 #unity-progress-bar-full {
-    height: 100%;
-    width: 0%;
+    position: absolute;
+    left: 50px;
+    right: calc(100% - var(--progress, 0%)); /* Динамическая ширина */
+    height: 28px;
+    bottom: 20%; /* Совпадает с empty */
     background: url('progress-bar-full.png') repeat-x;
     background-size: auto 100%;
+    transform: translateX(-50%);
+    margin-left: 50%;
+    margin-right: 50%;
 }
 
 #unity-footer { 
