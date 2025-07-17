@@ -49,8 +49,8 @@ body {
 }
 
 #unity-progress-bar-empty { 
-    width: 141px; 
-    height: 18px; 
+    width: 512px; 
+    height: 28px; 
     margin-top: 10px; 
     margin-left: 6.5px; 
     background: url('progress-bar-empty.png') no-repeat center; 
@@ -58,7 +58,7 @@ body {
 
 #unity-progress-bar-full { 
     width: 0%; 
-    height: 18px; 
+    height: 28px; 
     margin-top: 10px; 
     background: url('progress-bar-full.png') no-repeat center; 
 }
