@@ -5,87 +5,86 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | DailyRaffles</title>
     <style>
-      body {
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-      }
-      
-      #unity-container {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-      
-      #unity-canvas {
-        background: #231F20 url('TemplateData/background.png') no-repeat center center;
-        background-size: cover;
-        width: 100%;
-        height: 100%;
-      }
-      
-      #unity-loading-bar {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        text-align: center;
-      }
-      
-      #unity-progress-bar-container {
-        position: relative;
-        width: calc(100% - 100px);
-        max-width: 512px;
-        height: 28px;
-        margin: 10px auto;
-        overflow: hidden;
-      }
-      
-      #unity-progress-bar-empty {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: url('TemplateData/progress-bar-empty.png') no-repeat center;
-        background-size: 100% 100%;
-      }
-      
-      #unity-progress-bar-full {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: url('TemplateData/progress-bar-full.png') no-repeat left center;
-        background-size: 100% 100%;
-        transform: translateX(-100%);
-        transition: transform 0.2s ease-out;
-      }
-      
-      #unity-warning {
-        position: absolute;
-        left: 50%;
-        top: 5%;
-        transform: translate(-50%);
-        background: white;
-        padding: 10px;
-        display: none;
-      }
-      
-      @media (max-width: 768px) {
-        #unity-progress-bar-container {
-          width: calc(100% - 40px);
-          height: 20px;
-        }
-      }
-    </style>
+  body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+  
+  #unity-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #unity-canvas {
+    background: #231F20 url('TemplateData/background.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #unity-loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+  }
+  
+  #unity-progress-bar-container {
+    position: relative;
+    width: 256px; /* Фиксированная ширина */
+    height: 26px; /* Фиксированная высота */
+    margin: 10px auto; /* Автоматическое центрирование */
+    overflow: hidden;
+  }
+  
+  #unity-progress-bar-empty {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('TemplateData/progress-bar-empty.png') no-repeat center;
+    background-size: 100% 100%;
+  }
+  
+  #unity-progress-bar-full {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url('TemplateData/progress-bar-full.png') no-repeat left center;
+    background-size: 100% 100%;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-out;
+  }
+  
+  #unity-warning {
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%);
+    background: white;
+    padding: 10px;
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    #unity-progress-bar-container {
+      width: 256px; /* Сохраняем ту же ширину на мобильных */
+      height: 26px; /* Сохраняем ту же высоту */
+    }
+  }
+</style>
   </head>
   <body>
     <div id="unity-container">
