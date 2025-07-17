@@ -48,19 +48,23 @@ body {
     background: url('unity-logo-dark.png') no-repeat center; 
 }
 
-#unity-progress-bar-empty { 
-    width: 512px; 
-    height: 28px; 
-    margin-top: 10px; 
-    margin-left: 6.5px; 
-    background: url('progress-bar-empty.png') no-repeat center; 
+#unity-progress-bar-empty {
+    position: relative; /* Делаем контейнер позиционированным */
+    width: 512px;
+    height: 28px;
+    margin: 10px auto 0; /* Центрируем по горизонтали */
+    background: url('progress-bar-empty.png') no-repeat center;
+    background-size: 100% 100%; /* Полное заполнение контейнера */
 }
 
-#unity-progress-bar-full { 
-    width: 0%; 
-    height: 28px; 
-    margin-top: 10px; 
-    background: url('progress-bar-full.png') no-repeat center; 
+#unity-progress-bar-full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%; /* Занимаем всю высоту родителя */
+    background: url('progress-bar-full.png') no-repeat left center;
+    background-size: 100% 100%; /* Полное заполнение */
 }
 
 #unity-footer { 
