@@ -43,9 +43,9 @@ body {
 }
 
 #unity-logo { 
-    width: 154px; 
-    height: 130px; 
-    background: url('unity-logo-dark.png') no-repeat center; 
+    width: 256px; 
+    height: 256px; 
+    background: url('icon.png') no-repeat center; 
 }
 
 #unity-progress-bar-empty { 
