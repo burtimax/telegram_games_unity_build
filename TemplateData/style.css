@@ -23,7 +23,7 @@ body {
     }
 
 #unity-canvas {
-/*    z-index: 0;*/
+    z-index: 0;
     background: url('background.png') no-repeat center center;
     background-size: cover;
     width: 100%;
@@ -40,8 +40,8 @@ body {
     background-size: contain;
     transform: translate(-50%, -50%) scale(1);
     animation: pulse 2s ease-in-out infinite;
-    /*display: block;*/ /* Добавьте это */
-    /*z-index: 10;*/ /* Убедитесь, что лого выше других элементов */
+    display: block;  Добавьте это 
+    z-index: 10;  Убедитесь, что лого выше других элементов 
 }
 
 @keyframes pulse {
