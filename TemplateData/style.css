@@ -40,8 +40,8 @@ body {
     background-size: contain;
     transform: translate(-50%, -50%) scale(1);
     animation: pulse 2s ease-in-out infinite;
-    display: block;  Добавьте это 
-    z-index: 10;  Убедитесь, что лого выше других элементов 
+    display: block;  
+    z-index: 10; 
 }
 
 @keyframes pulse {
