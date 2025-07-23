@@ -52,6 +52,7 @@
         function handleFocus() {
             if (myGameInstance) {
                 myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+                window.showVideoAd();
             }
         }
 
@@ -122,7 +123,6 @@
 
                 // Инициализация рекламы после загрузки игры
                 initAds();
-                window.showVideoAd();
             }).catch((message) => {
                 alert(message);
             });
