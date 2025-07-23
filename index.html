@@ -5,12 +5,6 @@
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
-    <!-- Adextra Ad SDK -->
-    <!-- Video -->
-    <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
-    <!-- Baner -->
-    <script async src="https://partner.adextra.io/jt/1e1f1bd122b01569ff9f312612362c96fff1a272.js"></script>
-
     <style>
         body {
             overflow: hidden;
@@ -22,16 +16,6 @@
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
-
-        #adextra-banner {
-            position: fixed;
-            bottom: auto;
-            top: 0;
-            width: 320px;
-            height: 50px;
-            z-index: 200;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -42,18 +26,33 @@
         <div id="unity-warning"></div>
     </div>
 
-    <!-- Adextra Video Ad Container -->
-    <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
-
-    <!-- Adextra Banner Ad Container -->
-    <div id="1e1f1bd122b01569ff9f312612362c96fff1a272" class="adextra-banner" style="position: fixed; top: 0; left: 0; width: 320px; height: 50px; z-index: 50; display: block;"></div>
+    <!-- Adsgram -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
     <script>
+
+
+        const AdController = window.Adsgram.init({
+            blockId: "7847263849",
+            debug: true
+        });
+
+        function showAds() {
+            AdController.show().then((result) => {
+                // пользователь досмотрел рекламу до конца
+                console.log("--ShowAds--");
+
+                myGameInstance.SendMessage('AdsManager', 'WatchEnd');
+            }).catch((result) => {
+                // пользователь пропустил видео или произошла ошибка
+                console.log("--ClosedAds--");
+                myGameInstance.SendMessage('AdsManager', 'Close');
+            });
+        }
 
         function handleFocus() {
             if (myGameInstance) {
                 myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
-                window.showVideoAd();
             }
         }
 
@@ -62,12 +61,6 @@
                 myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
             }
         }
-        const adVideo = document.querySelector('[id*="bdb4668e659ee063bd17359de7eba3d726e43e70"]'); // или точный ID
-        if (adVideo) {
-            adVideo.style.zIndex = '100'; // Выше Unity
-            adVideo.style.position = 'fixed'; // На всякий случай
-        }
-
 
         document.addEventListener('visibilitychange', handleVisibilityChange);
         window.addEventListener('focus', handleFocus);
@@ -129,25 +122,11 @@
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
 
-                // Инициализация рекламы после загрузки игры
-                initAds();
             }).catch((message) => {
                 alert(message);
             });
         };
 
-        function initAds() {
-            // Функция для показа видео-рекламы
-            window.showVideoAd = function () {
-                if (typeof p_adextra === 'function') {
-                    p_adextra(
-                        () => console.log('Video ad shown'),
-                        () => console.log('Video ad failed')
-                    );
-                }
-            };
-            baner.style.display = "none";
-        }
 
         document.body.appendChild(script);
     </script>
