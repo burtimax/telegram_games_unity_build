@@ -7,12 +7,12 @@
 
     <!-- Adextra Ad SDK -->
     <!-- Video -->
-    <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
+    <!--<script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>-->
     <!-- Baner -->
-    <script async src="https://partner.adextra.io/jt/1e1f1bd122b01569ff9f312612362c96fff1a272.js"></script>
+    <!--<script async src="https://partner.adextra.io/jt/1e1f1bd122b01569ff9f312612362c96fff1a272.js"></script>-->
 
     <style>
-        body {
+/*        body {
             overflow: hidden;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -21,7 +21,7 @@
             -ms-user-select: none;
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
-        }
+        }*/
 
 /*        #adextra-banner {
             position: fixed;
@@ -42,11 +42,10 @@
     </div>
 
     <!-- Adextra Video Ad Container -->
-    <div id="bdb4668e659ee063bd17359de7eba3d726e43e70" style="display: none;"></div>
+    <!--<div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>-->
 
     <!-- Adextra Banner Ad Container -->
-    <div id="1e1f1bd122b01569ff9f312612362c96fff1a272"
-         style="position: fixed; bottom: 10px; right: 10px; width: 320px; height: 50px; z-index: 100;"></div>
+    <!--<div id="1e1f1bd122b01569ff9f312612362c96fff1a272" class="adextra-banner"></div>-->
 
     <script>
 
@@ -122,34 +121,24 @@
                 logo.style.display = "none";
 
                 // Инициализация рекламы после загрузки игры
-                initAds();
+                //initAds();
             }).catch((message) => {
                 alert(message);
             });
         };
 
-        function initAds() {
-            // Показываем баннер только после загрузки игры
-            if (myGameInstance) {
-                document.getElementById('1e1f1bd122b01569ff9f312612362c96fff1a272').style.display = 'block';
-            }
+        //function initAds() {
+        //    // Функция для показа видео-рекламы
+        //    window.showVideoAd = function () {
+        //        if (typeof p_adextra === 'function') {
+        //            p_adextra(
+        //                () => console.log('Video ad shown'),
+        //                () => console.log('Video ad failed')
+        //            );
+        //        }
+        //    };
 
-            window.showVideoAd = function () {
-                if (typeof p_adextra === 'function') {
-                    document.getElementById('bdb4668e659ee063bd17359de7eba3d726e43e70').style.display = 'block';
-                    p_adextra(
-                        () => {
-                            console.log('Video ad shown');
-                            document.getElementById('bdb4668e659ee063bd17359de7eba3d726e43e70').style.display = 'none';
-                        },
-                        () => {
-                            console.log('Video ad failed');
-                            document.getElementById('bdb4668e659ee063bd17359de7eba3d726e43e70').style.display = 'none';
-                        }
-                    );
-                }
-            };
-        }
+        //}
 
         document.body.appendChild(script);
     </script>
