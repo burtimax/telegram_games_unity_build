@@ -5,6 +5,9 @@
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
+    <!-- Adextra SDK (Full-Screen Video Ad) -->
+    <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
+
     <style>
         body {
             overflow: hidden;
@@ -26,30 +29,11 @@
         <div id="unity-warning"></div>
     </div>
 
-    <!-- Adsgram -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <!-- Adextra Full-Screen Video Ad Container -->
+    <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
 
     <script>
-
-
-        const AdController = window.Adsgram.init({
-            blockId: "13047",
-            debug: true
-        });
-
-        function showAds() {
-            AdController.show().then((result) => {
-                // пользователь досмотрел рекламу до конца
-                console.log("--ShowAds--");
-
-                myGameInstance.SendMessage('AdsManager', 'WatchEnd');
-            }).catch((result) => {
-                // пользователь пропустил видео или произошла ошибка
-                console.log("--ClosedAds--");
-                myGameInstance.SendMessage('AdsManager', 'Close');
-            });
-        }
-
+        // Обработчики фокуса/вкладки
         function handleFocus() {
             if (myGameInstance) {
                 myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
@@ -67,7 +51,6 @@
 
         var canvas = document.querySelector("#unity-canvas");
         var logo = document.querySelector("#unity-logo");
-        var baner = document.querySelector(".adextra-banner");
         var warningBanner = document.querySelector("#unity-warning");
 
         function unityShowBanner(msg, type) {
@@ -77,9 +60,9 @@
             var div = document.createElement('div');
             div.innerHTML = msg;
             warningBanner.appendChild(div);
-            if (type == 'error') div.style = 'background: red; padding: 10px;';
+            if (type === 'error') div.style = 'background: red; padding: 10px;';
             else {
-                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+                if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
                 setTimeout(function () {
                     warningBanner.removeChild(div);
                     updateBannerVisibility();
@@ -117,18 +100,46 @@
         script.src = loaderUrl;
         script.onload = () => {
             createUnityInstance(canvas, config, () => {
-                // Progress callback
+                // Progress callback (можно сделать отображение прогресса)
             }).then((unityInstance) => {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
-
             }).catch((message) => {
                 alert(message);
             });
         };
-
-
         document.body.appendChild(script);
+
+        // === Новый вызов полноэкранной рекламы Adextra ===
+        function showAds() {
+            const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
+
+            const onSuccess = () => {
+                console.log("--Ad Shown Successfully--");
+                fetch('https://example.com/beacon/show/' + id);
+                if (myGameInstance) {
+                    myGameInstance.SendMessage('AdsManager', 'WatchEnd');
+                }
+            };
+
+            const onError = () => {
+                console.log("--Ad Failed or Skipped--");
+                fetch('https://example.com/beacon/error/' + id);
+                if (myGameInstance) {
+                    myGameInstance.SendMessage('AdsManager', 'Close');
+                }
+            };
+
+            if (typeof p_adextra === "function") {
+                p_adextra(onSuccess, onError);
+            } else {
+                console.warn("p_adextra not loaded");
+            }
+        }
+
+        // Вызов рекламы (например, из Unity через SendMessage → showAds)
+        window.showAds = showAds;
     </script>
 </body>
 </html>
+
