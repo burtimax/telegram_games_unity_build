@@ -8,7 +8,7 @@
     <!-- Adextra SDK (Full-Screen Video Ad) -->
     <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
     <!-- Adextra SDK (Baner Ad) -->
-    <script src="https://partner.adextra.io/jt/1e1f1bd122b01569ff9f312612362c96fff1a272.js"></script>
+    <!--<script src="https://partner.adextra.io/jt/1e1f1bd122b01569ff9f312612362c96fff1a272.js"></script>-->
 
 
     <style>
@@ -35,7 +35,7 @@
     <!-- Adextra Full-Screen Video Ad Container -->
     <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
     <!-- Baner Ad Container -->
-    <div id="1e1f1bd122b01569ff9f312612362c96fff1a272"
+    <!--<div id="1e1f1bd122b01569ff9f312612362c96fff1a272"
          style="
          position: fixed;
          width: 320px;
@@ -46,7 +46,7 @@
          z-index: 9999;
          display: block;
          pointer-events: auto;">
-    </div>
+    </div>-->
 
 
     <script>
@@ -62,9 +62,9 @@
                 myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
             }
         }
-        const el = document.getElementById("1e1f1bd122b01569ff9f312612362c96fff1a272");
-        el.style.backgroundColor = "blue";
-        el.innerText = "ТЕСТ-БАННЕР";
+        //const el = document.getElementById("1e1f1bd122b01569ff9f312612362c96fff1a272");
+        //el.style.backgroundColor = "blue";
+        //el.innerText = "ТЕСТ-БАННЕР";
 
         document.addEventListener('visibilitychange', handleVisibilityChange);
         window.addEventListener('focus', handleFocus);
