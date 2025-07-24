@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="TemplateData/style.css">
 
     <!-- Adextra SDK (Full-Screen Video Ad) -->
-    <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
+    <!--<script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>-->
     <!-- Adextra SDK (Baner Ad) -->
     <script async src="https://partner.adextra.io/jt/1e1f1bd122b01569ff9f312612362c96fff1a272.js"></script>
 
@@ -33,8 +33,8 @@
     </div>
 
     <!-- Adextra Full-Screen Video Ad Container -->
-    <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"
-         style="display: none;"></div>
+    <!--<div id="bdb4668e659ee063bd17359de7eba3d726e43e70"
+         style="display: none;"></div>-->
     <!-- Baner Ad Container -->
     <div id="1e1f1bd122b01569ff9f312612362c96fff1a272"
          style="
@@ -131,16 +131,10 @@
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
             const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
-            const adVideo = document.getElementById(id);
-
-            if (adVideo) {
-                adVideo.style.display = "block"; // Показываем рекламу
-            }
 
             const onSuccess = () => {
                 console.log("--Ad Shown Successfully--");
                 fetch('https://example.com/beacon/show/' + id);
-                if (adVideo) adVideo.style.display = "none"; // Скрываем после показа
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'WatchEnd');
                 }
@@ -149,7 +143,6 @@
             const onError = () => {
                 console.log("--Ad Failed or Skipped--");
                 fetch('https://example.com/beacon/error/' + id);
-                if (adVideo) adVideo.style.display = "none"; // Скрываем при ошибке
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'Close');
                 }
@@ -159,10 +152,8 @@
                 p_adextra(onSuccess, onError);
             } else {
                 console.warn("p_adextra not loaded");
-                if (adVideo) adVideo.style.display = "none"; // Скрываем, если реклама не загружена
             }
         }
-
 
         // Вызов рекламы (например, из Unity через SendMessage → showAds)
         window.showAds = showAds;
