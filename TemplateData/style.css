@@ -8,6 +8,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
+    display: none;
 }
 
     #unity-container.unity-desktop {
@@ -28,6 +29,7 @@ body {
     background-size: cover;
     width: 100%;
     height: 100%;
+    display: none;
 }
 
 #unity-logo {
