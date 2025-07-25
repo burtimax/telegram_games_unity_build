@@ -72,6 +72,7 @@
 
         var canvas = document.querySelector("#unity-canvas");
         var logo = document.querySelector("#unity-logo");
+        var addBg = document.querySelector("#additional-background");
         var warningBanner = document.querySelector("#unity-warning");
 
         function unityShowBanner(msg, type) {
@@ -125,6 +126,7 @@
             }).then((unityInstance) => {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
+                addBg.style.display = "none";
             }).catch((message) => {
                 alert(message);
             });
