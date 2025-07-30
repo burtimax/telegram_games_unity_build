@@ -1,0 +1,30 @@
+﻿{
+  "name": "TG розыгрыши",
+  "short_name": "Telegram розыгрыши",
+  "description": "Tg розыгрыши каждый день",
+  "icons": [
+    {
+      "src": "img/TG144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "img/TG192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/TG168.png",
+      "sizes": "168x168",
+      "type": "image/png"
+    },
+    {
+      "src": "img/TG512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "minimal-ui",
+  "start_url": "/",
+  "screenshots": []
+}

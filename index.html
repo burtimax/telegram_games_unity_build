@@ -5,6 +5,9 @@
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
+<link rel="manifest" href="/manifest.json"> 
+<link rel="apple-touch-icon" href="/img/TG180.png">
+
     <!-- Adextra SDK (Full-Screen Video Ad) -->
     <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
     <!-- Adextra SDK (Baner Ad) -->
@@ -49,6 +52,15 @@
          pointer-events: auto;">
     </div>-->
 
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((reg) => console.log('SW зарегистрирован', reg))
+      .catch((err) => console.error('SW ошибка', err));
+  });
+}
+</script> 
 
     <script>
         // Обработчики фокуса/вкладки
@@ -97,9 +109,9 @@
         var loaderUrl = buildUrl + "/telegram_games_unity_build.loader.js";
         var config = {
             arguments: [],
-            dataUrl: buildUrl + "/telegram_games_unity_build.data.unityweb",
+            dataUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.data.unityweb",
             frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
-            codeUrl: buildUrl + "/telegram_games_unity_build.wasm.unityweb",
+            codeUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DinoCarbone",
             productName: "DailyRaffles",
