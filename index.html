@@ -8,83 +8,168 @@
 <link rel="manifest" href="/manifest.json"> 
 <link rel="apple-touch-icon" href="/img/TG180.png">
 
-<script>
-        // === Telegram Init ===
-        function initTelegramFeatures() {
-            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-                const isMobile = /Mobile|Android|iPhone/i.test(navigator.userAgent);
 
-                try {
-                    if (isMobile) {
-                        Telegram.WebApp.expand();
-                        Telegram.WebApp.disableVerticalSwipes();
-                        Telegram.WebApp.lockOrientation('portrait');
-                        console.log("Telegram mobile features initialized");
-                    }else {
-                        console.log("Telegram PC features initialized");
-                    }
-
-                    Telegram.WebApp.ready();
-                } catch (e) {
-                    console.error("Error initializing Telegram:", e);
-                }
-            } else {
-                console.error("Telegram SDK not found!");
-            }
-        }
-        let tgBanner = null;
-
-        function initTelegramBanner() {
-            window.TelegramAdsController = new TelegramAdsController();
-            window.TelegramAdsController.initialize({
-              pubId: "982789",
-              appId: "3351",
-            });
-        }
-    </script>
-    <!-- Telegram SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
-
-    <!-- Adextra SDK (Full-Screen Video Ad) -->
-    <script src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js" onload="initTelegramBanner()"></script>
-
-    <!-- richinfo SDK (baner) -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
-
-    <style>
-        body {
-            overflow: hidden;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-        }
+<style>
+    body {
+        overflow: hidden;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
     </style>
-    
-    <script>
 
-        // === Показ баннера ===
-        function showBanner() {
-            if (window.TelegramAdsController) {
-                //tgBanner = window.TelegramAdsController.showBanner();
-                console.log("Banner shown");
-            } else {
-                console.warn("TelegramAdsController not ready");
+    <script>
+    // === Функция для загрузки скрипта с детальной отладкой ===
+    function loadScript(src, id) {
+        return new Promise((resolve, reject) => {
+            console.log(`Loading script: ${src}`);
+            
+            const script = document.createElement('script');
+            script.src = src;
+            script.id = id || 'dynamic-script';
+            
+            script.onload = () => {
+                console.log(`Script loaded: ${src}`);
+                // Проверяем, определил ли скрипт нужные глобальные переменные
+                if (src.includes('tg-ob.js') && typeof TelegramAdsController === 'undefined') {
+                    console.warn('Script loaded but TelegramAdsController is undefined');
+                    // Продолжаем anyway, возможно класс доступен через другой механизм
+                }
+                resolve();
+            };
+            
+            script.onerror = (error) => {
+                console.error(`Failed to load script: ${src}`, error);
+                reject(new Error(`Failed to load: ${src}`));
+            };
+            
+            document.head.appendChild(script);
+        });
+    }
+
+    // === Основная функция инициализации ===
+    async function initializeAll() {
+        try {
+            console.log('Starting initialization...');
+            
+            // 1. Загружаем Telegram Web App
+            await loadScript('https://telegram.org/js/telegram-web-app.js', 'telegram-sdk');
+            
+            // 2. Инициализируем Telegram функции
+            initTelegramFeatures();
+            
+            // 3. Загружаем Telegram Ads скрипт
+            await loadScript('https://richinfo.co/richpartners/telegram/js/tg-ob.js', 'tg-ads-sdk');
+            
+            // 4. Ждем немного для инициализации скрипта
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            await loadScript('https://richinfo.co/https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js/telegram/js/tg-ob.js', 'tg-ads-video-sdk');
+            // 5. Проверяем доступность класса
+            if (typeof TelegramAdsController === 'undefined') {
+                console.error('TelegramAdsController is still undefined after loading script');
+                console.log('Available global variables:', Object.keys(window).filter(key => 
+                    key.includes('Telegram') || key.includes('Ads') || key.includes('Controller')
+                ));
+                return;
+            }
+            
+            // 6. Инициализируем баннер
+            initTelegramBanner();
+            
+        } catch (error) {
+            console.error("Initialization error:", error);
+        }
+    }
+
+    function initTelegramFeatures() {
+        if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+            console.log('Telegram WebApp available');
+            const isMobile = /Mobile|Android|iPhone/i.test(navigator.userAgent);
+            try {
+                if (isMobile) {
+                    Telegram.WebApp.expand();
+                    Telegram.WebApp.disableVerticalSwipes();
+                    Telegram.WebApp.lockOrientation('portrait');
+                }
+                Telegram.WebApp.ready();
+            } catch (e) {
+                console.error("Error initializing Telegram:", e);
+            }
+        } else {
+            console.error("Telegram SDK not found!");
+        }
+    }
+
+    function initTelegramBanner() {
+        console.log('Initializing banner, TelegramAdsController:', typeof TelegramAdsController);
+        
+        if (typeof TelegramAdsController !== 'undefined') {
+            try {
+                window.TelegramAdsController = new TelegramAdsController();
+                window.TelegramAdsController.initialize({
+                    pubId: "982789",
+                    appId: "3351",
+                });
+                console.log("Telegram banner initialized successfully");
+            } catch (e) {
+                console.error("Error creating TelegramAdsController:", e);
+            }
+        } else {
+            console.error("TelegramAdsController class not available");
+            // Попробуем найти альтернативное имя
+            checkAlternativeNames();
+        }
+    }
+
+    function checkAlternativeNames() {
+        const possibleNames = [
+            'TelegramAds', 'TGAdsController', 'tgAds', 
+            'RichInfoAds', 'TelegramAdController'
+        ];
+        
+        for (const name of possibleNames) {
+            if (typeof window[name] !== 'undefined') {
+                console.log(`Found alternative: ${name}`);
+                break;
             }
         }
+    }
 
-        function hideBanner() {
-            if (tgBanner) {
-                tgBanner.destroy();  // полностью убирает баннер
+    let tgBanner = null;
+
+    function showBanner() {
+        if (window.TelegramAdsController) {
+            try {
+                tgBanner = window.TelegramAdsController.showBanner();
+                console.log("Banner shown");
+            } catch (e) {
+                console.error("Error showing banner:", e);
+            }
+        } else {
+            console.warn("TelegramAdsController not ready");
+        }
+    }
+
+    function hideBanner() {
+        if (tgBanner) {
+            try {
+                tgBanner.destroy();
                 tgBanner = null;
                 console.log("Banner hidden");
+            } catch (e) {
+                console.error("Error hiding banner:", e);
             }
         }
+    }
 
-    </script>
+    // Запускаем инициализацию
+    initializeAll();
+</script>
 </head>
 <body>
     <!-- Unity Container -->
