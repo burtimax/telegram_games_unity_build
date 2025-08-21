@@ -60,20 +60,15 @@
         let tgBanner = null;
 
         function initTelegramBanner() {
-            if (typeof TelegramAdsController !== "undefined") {
-                window.TelegramAdsController = new TelegramAdsController();
-                window.TelegramAdsController.initialize({
-                    pubId: "982789", // замени на свой ID паблишера
-                    appId: "3351"     // замени на свой ID приложения
-                });
-                console.log("Telegram banner initialized");
-            } else {
-                console.error("TelegramAdsController SDK not loaded!");
-            }
+            window.TelegramAdsController = new TelegramAdsController();
+            window.TelegramAdsController.initialize({
+              pubId: "982789",
+              appId: "3351",
+            });
         }
 
         initTelegramBanner();
-        
+
         // === Показ баннера ===
         function showBanner() {
             if (window.TelegramAdsController) {
