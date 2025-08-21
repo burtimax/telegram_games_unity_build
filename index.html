@@ -14,6 +14,8 @@
     <!-- Adextra SDK (Full-Screen Video Ad) -->
     <script src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
 
+    <!-- richinfo SDK (baner) -->
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
 
     <style>
         body {
@@ -51,6 +53,31 @@
         }
 
         initTelegramFeatures();
+
+        let tgBanner = null;
+
+        function initTelegramBanner() {
+            if (typeof TelegramAdsController !== "undefined") {
+                window.TelegramAdsController = new TelegramAdsController();
+                window.TelegramAdsController.initialize({
+                    pubId: "982789", // замени на свой ID паблишера
+                    appId: "3351"     // замени на свой ID приложения
+                });
+                console.log("Telegram banner initialized");
+            } else {
+                console.error("TelegramAdsController SDK not loaded!");
+            }
+        }
+
+        // === Показ баннера ===
+        function showBanner() {
+            if (window.TelegramAdsController) {
+                tgBanner = window.TelegramAdsController.showBanner();
+                console.log("Banner shown");
+            } else {
+                console.warn("TelegramAdsController not ready");
+            }
+        }
     </script>
 </head>
 <body>
@@ -155,6 +182,8 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
+
+                initTelegramBanner();
             }).catch((message) => {
                 alert(message);
             });
