@@ -35,32 +35,31 @@
         let tgBanner = null;
 
         function initTelegramBanner() {
-    console.log('initTelegramBanner called');
-    console.log('TelegramAdsController defined:', typeof TelegramAdsController);
-    
     if (typeof TelegramAdsController === 'undefined') {
-        console.error(' TelegramAdsController is undefined - скрипт не загрузился');
+        console.error('❌ TelegramAdsController is undefined');
         return;
     }
     
     try {
         window.TelegramAdsController = new TelegramAdsController();
-        console.log('Constructor called successfully');
+        console.log('✅ Constructor called successfully');
         
-        const result = window.TelegramAdsController.initialize({
+        // initialize() возвращает Promise без результата
+        window.TelegramAdsController.initialize({
             pubId: "982789",
             appId: "3351",
+        })
+        .then(() => {
+            // Promise выполнен успешно, но без данных
+            console.log('✅ Инициализация успешна (Promise fulfilled)');
+            showBanner(); // Теперь можно показывать баннеры
+        })
+        .catch(error => {
+            console.error('❌ Ошибка инициализации', error);
         });
         
-        console.log('Initialize result:', result);
-        
-        if (result === true || result?.status === 'success') {
-            console.log('Инициализация успешна');
-        } else {
-            console.error(' Ошибка инициализации', result);
-        }
     } catch (error) {
-        console.error(' Error in initTelegramBanner:', error);
+        console.error('❌ Error in initTelegramBanner:', error);
     }
 }
 
