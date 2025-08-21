@@ -42,7 +42,10 @@
                         Telegram.WebApp.disableVerticalSwipes();
                         Telegram.WebApp.lockOrientation('portrait');
                         console.log("Telegram mobile features initialized");
+                    }else {
+                        console.log("Telegram PC features initialized");
                     }
+
                     Telegram.WebApp.ready();
                 } catch (e) {
                     console.error("Error initializing Telegram:", e);
@@ -69,6 +72,8 @@
             }
         }
 
+        initTelegramBanner();
+        
         // === Показ баннера ===
         function showBanner() {
             if (window.TelegramAdsController) {
@@ -78,6 +83,15 @@
                 console.warn("TelegramAdsController not ready");
             }
         }
+
+        function hideBanner() {
+            if (tgBanner) {
+                tgBanner.destroy();  // полностью убирает баннер
+                tgBanner = null;
+                console.log("Banner hidden");
+            }
+        }
+
     </script>
 </head>
 <body>
@@ -182,8 +196,7 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
-
-                initTelegramBanner();
+                showBanner();
             }).catch((message) => {
                 alert(message);
             });
