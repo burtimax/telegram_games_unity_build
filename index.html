@@ -95,7 +95,6 @@ document.querySelector('script[src*="tg-ob.js"]').onerror = function() {
         function showBanner() {
             if (window.TelegramAdsController) {
                 //tgBanner = window.TelegramAdsController.showBanner();
-                window.TelegramAdsController.showBanner();
                 console.log("---Banner shown");
             } else {
                 console.error("---TelegramAdsController not ready");
