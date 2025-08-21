@@ -35,18 +35,39 @@
         let tgBanner = null;
 
         function initTelegramBanner() {
-    window.TelegramAdsController = new TelegramAdsController();
-    const result = window.TelegramAdsController.initialize({
-        pubId: "982789",
-        appId: "3351",
-    });
+    console.log('initTelegramBanner called');
+    console.log('TelegramAdsController defined:', typeof TelegramAdsController);
     
-    if (result === true || result.status === 'success') {
-        console.log('---=Инициализация успешна');
-    } else {
-        console.error('----Ошибка инициализации', result);
+    if (typeof TelegramAdsController === 'undefined') {
+        console.error(' TelegramAdsController is undefined - скрипт не загрузился');
+        return;
+    }
+    
+    try {
+        window.TelegramAdsController = new TelegramAdsController();
+        console.log('Constructor called successfully');
+        
+        const result = window.TelegramAdsController.initialize({
+            pubId: "982789",
+            appId: "3351",
+        });
+        
+        console.log('Initialize result:', result);
+        
+        if (result === true || result?.status === 'success') {
+            console.log('Инициализация успешна');
+        } else {
+            console.error(' Ошибка инициализации', result);
+        }
+    } catch (error) {
+        console.error(' Error in initTelegramBanner:', error);
     }
 }
+
+// Добавьте обработчик ошибок для скрипта
+document.querySelector('script[src*="tg-ob.js"]').onerror = function() {
+    console.error(' Failed to load tg-ob.js');
+};
     </script>
     <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
