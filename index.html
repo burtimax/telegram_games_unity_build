@@ -1,117 +1,196 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <meta charset="utf-8" />
-  <title>Unity Web Player | DailyRaffles</title>
-  <link rel="stylesheet" href="TemplateData/style.css" />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="apple-touch-icon" href="/img/TG180.png" />
-  <style>
-    body {
-      overflow: hidden;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
-    }
-    #unity-container, #unity-canvas { position:absolute; width:100%; height:100%; left:0; top:0; }
-  </style>
+    <meta charset="utf-8">
+    <title>Unity Web Player | DailyRaffles</title>
+    <link rel="stylesheet" href="TemplateData/style.css">
+
+<link rel="manifest" href="/manifest.json"> 
+<link rel="apple-touch-icon" href="/img/TG180.png">
+
+    <!-- Telegram SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Adextra SDK (Full-Screen Video Ad) -->
+    <script src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
+
+
+    <style>
+        body {
+            overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+    </style>
+    
+    <script>
+        // === Telegram Init ===
+        function initTelegramFeatures() {
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                const isMobile = /Mobile|Android|iPhone/i.test(navigator.userAgent);
+
+                try {
+                    if (isMobile) {
+                        Telegram.WebApp.expand();
+                        Telegram.WebApp.disableVerticalSwipes();
+                        Telegram.WebApp.lockOrientation('portrait');
+                        console.log("Telegram mobile features initialized");
+                    }
+                    Telegram.WebApp.ready();
+                } catch (e) {
+                    console.error("Error initializing Telegram:", e);
+                }
+            } else {
+                console.error("Telegram SDK not found!");
+            }
+        }
+
+        initTelegramFeatures();
+    </script>
 </head>
 <body>
-  <!-- Unity Container -->
-  <div id="unity-container">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
-    <div id="additional-background"></div>
-    <div id="unity-logo"></div>
-    <div id="unity-warning"></div>
-  </div>
+    <!-- Unity Container -->
+    <div id="unity-container" style="position: absolute; width: 100%; height: 100%; left: 0%; top: 0%;">
+        <canvas id="unity-canvas" style="position: absolute; width: 100%; height: 100%;" tabindex="-1"></canvas>
+        <div id="additional-background"></div> 
+        <div id="unity-logo"></div>
+        <div id="unity-warning"></div>
+    </div>
 
-  <script>
-    // Service Worker (по желанию)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(reg => console.log('SW registered', reg))
-          .catch(err => console.error('SW error', err));
-      });
-    }
+    <!-- Adextra Full-Screen Video Ad Container -->
+    <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
 
-    // Unity boot
-    (function () {
-      const canvas = document.querySelector("#unity-canvas");
-      const warningBanner = document.querySelector("#unity-warning");
-      const logo = document.querySelector("#unity-logo");
-      const addBg = document.querySelector("#additional-background");
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((reg) => console.log('SW зарегистрирован', reg))
+      .catch((err) => console.error('SW ошибка', err));
+  });
+}
+</script> 
 
-      function unityShowBanner(msg, type) {
-        function update() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+    <script>
+
+        // // --Доменчик залупенчик ---
+        // var unityConfig = {
+        //     apiUrl: "https://telegram-games.tg-projects.ru",
+        // };
+
+        // Обработчики фокуса/вкладки
+        function handleFocus() {
+            if (myGameInstance) {
+                myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+            }
         }
-        const div = document.createElement('div');
-        div.innerHTML = msg;
-        div.style = (type === 'error')
-          ? 'background:red;padding:10px;'
-          : (type === 'warning' ? 'background:yellow;padding:10px;' : '');
-        warningBanner.appendChild(div);
-        if (type !== 'error') setTimeout(() => { warningBanner.removeChild(div); update(); }, 5000);
-        update();
-      }
 
-      const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/telegram_games_unity_build.loader.js";
-      const config = {
-        arguments: [],
-        dataUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/dev/Build/telegram_games_unity_build.data.unityweb",
-        frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
-        codeUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/dev/Build/telegram_games_unity_build.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DinoCarbone",
-        productName: "DailyRaffles",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        const meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.head.appendChild(meta);
-        document.querySelector("#unity-container").className = "unity-mobile";
-        canvas.className = "unity-mobile";
-      }
-
-      const script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, () => { /* progress */ })
-          .then((unityInstance) => {
-            // ВАЖНО: делаем инстанс глобальным, чтобы jslib мог к нему достучаться
-            window.myGameInstance = unityInstance;
-            logo.style.display = "none";
-            addBg.style.display = "none";
-            // Дальше из C# вы вызываете InjectTelegramSDKJS()
-          })
-          .catch((message) => alert(message));
-      };
-      document.body.appendChild(script);
-
-      // Обновления фокуса/видимости — по желанию
-      function handleFocus() {
-        if (window.myGameInstance) {
-          window.myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'visible' && myGameInstance) {
+                myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+            }
         }
-      }
-      function handleVisibilityChange() {
-        if (document.visibilityState === 'visible' && window.myGameInstance) {
-          window.myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', handleFocus);
+
+        var canvas = document.querySelector("#unity-canvas");
+        var logo = document.querySelector("#unity-logo");
+        var addBg = document.querySelector("#additional-background");
+        var warningBanner = document.querySelector("#unity-warning");
+
+        function unityShowBanner(msg, type) {
+            function updateBannerVisibility() {
+                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+            }
+            var div = document.createElement('div');
+            div.innerHTML = msg;
+            warningBanner.appendChild(div);
+            if (type === 'error') div.style = 'background: red; padding: 10px;';
+            else {
+                if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
+                setTimeout(function () {
+                    warningBanner.removeChild(div);
+                    updateBannerVisibility();
+                }, 5000);
+            }
+            updateBannerVisibility();
         }
-      }
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-      window.addEventListener('focus', handleFocus);
-    })();
-  </script>
+
+        var buildUrl = "Build";
+        var loaderUrl = buildUrl + "/telegram_games_unity_build.loader.js";
+        var config = {
+            arguments: [],
+            dataUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/dev/Build/telegram_games_unity_build.data.unityweb",
+            frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
+            codeUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/dev/Build/telegram_games_unity_build.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DinoCarbone",
+            productName: "DailyRaffles",
+            productVersion: "1.0",
+            showBanner: unityShowBanner,
+        };
+
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            var meta = document.createElement('meta');
+            meta.name = 'viewport';
+            meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+            document.getElementsByTagName('head')[0].appendChild(meta);
+            document.querySelector("#unity-container").className = "unity-mobile";
+            canvas.className = "unity-mobile";
+        }
+
+        let myGameInstance = null;
+
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, () => {
+                // Progress callback (можно сделать отображение прогресса)
+            }).then((unityInstance) => {
+                myGameInstance = unityInstance;
+                logo.style.display = "none";
+                addBg.style.display = "none";
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+        document.body.appendChild(script);
+
+        // === Новый вызов полноэкранной рекламы Adextra ===
+        function showAds() {
+            const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
+
+            const onSuccess = () => {
+                console.log("--Ad Shown Successfully--");
+                fetch('https://example.com/beacon/show/' + id);
+                if (myGameInstance) {
+                    myGameInstance.SendMessage('AdsManager', 'WatchEnd');
+                }
+            };
+
+            const onError = () => {
+                console.log("--Ad Failed or Skipped--");
+                fetch('https://example.com/beacon/error/' + id);
+                if (myGameInstance) {
+                    myGameInstance.SendMessage('AdsManager', 'Close');
+                }
+            };
+
+            if (typeof p_adextra === "function") {
+                p_adextra(onSuccess, onError);
+            } else {
+                console.warn("p_adextra not loaded");
+            }
+        }
+
+        // Вызов рекламы (например, из Unity через SendMessage → showAds)
+        window.showAds = showAds;
+    </script>
 </body>
 </html>
+
