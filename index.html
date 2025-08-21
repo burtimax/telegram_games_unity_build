@@ -8,29 +8,7 @@
 <link rel="manifest" href="/manifest.json"> 
 <link rel="apple-touch-icon" href="/img/TG180.png">
 
-    <!-- Telegram SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- Adextra SDK (Full-Screen Video Ad) -->
-    <script src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
-
-    <!-- richinfo SDK (baner) -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
-
-    <style>
-        body {
-            overflow: hidden;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-        }
-    </style>
-    
-    <script>
+<script>
         // === Telegram Init ===
         function initTelegramFeatures() {
             if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
@@ -54,9 +32,6 @@
                 console.error("Telegram SDK not found!");
             }
         }
-
-        initTelegramFeatures();
-
         let tgBanner = null;
 
         function initTelegramBanner() {
@@ -66,8 +41,30 @@
               appId: "3351",
             });
         }
+    </script>
+    <!-- Telegram SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
 
-        initTelegramBanner();
+    <!-- Adextra SDK (Full-Screen Video Ad) -->
+    <script src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js" onload="initTelegramBanner()"></script>
+
+    <!-- richinfo SDK (baner) -->
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
+
+    <style>
+        body {
+            overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+    </style>
+    
+    <script>
 
         // === Показ баннера ===
         function showBanner() {
