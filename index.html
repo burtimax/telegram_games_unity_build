@@ -7,14 +7,6 @@
 
 <link rel="manifest" href="/manifest.json"> 
 <link rel="apple-touch-icon" href="/img/TG180.png">
-    <!-- Telegram SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
-
-    <!-- Adextra SDK (Full-Screen Video Ad) -->
-    <!-- <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script> -->
-
-    <!-- richinfo SDK (baner) -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
 
     <style>
         body {
@@ -52,32 +44,7 @@
                 console.error("Telegram SDK not found!");
             }
         }
-        let tgBanner = null;
-function checkBannerVisibility() {
-    console.log('🔍 Проверяем DOM на наличие баннеров...');
-    
-    // Ищем возможные баннеры
-    const possibleBanners = [
-        ...document.querySelectorAll('div[style*="fixed"]'),
-        ...document.querySelectorAll('div[style*="absolute"]'),
-        ...document.querySelectorAll('iframe'),
-        ...document.querySelectorAll('div[id*="ad"]'),
-        ...document.querySelectorAll('div[class*="ad"]'),
-        ...document.querySelectorAll('div[style*="z-index: 999"]')
-    ];
-    
-    console.log(`Найдено ${possibleBanners.length} потенциальных баннеров`);
-    
-    possibleBanners.forEach((banner, index) => {
-        console.log(`Баннер ${index + 1}:`, {
-            tag: banner.tagName,
-            id: banner.id,
-            class: banner.className,
-            styles: banner.style.cssText,
-            visible: banner.offsetParent !== null
-        });
-    });
-}
+
         function initTelegramBanner() {
     if (typeof TelegramAdsController === 'undefined') {
         console.error('❌ TelegramAdsController is undefined');
@@ -97,10 +64,6 @@ function checkBannerVisibility() {
         .then(() => {
             // Promise выполнен успешно, но без данных
             console.log('✅ Инициализация успешна (Promise fulfilled)');
-
-            setTimeout(() => {
-                checkBannerVisibility();
-            }, 2000);
         })
         .catch(error => {
             console.error('❌ Ошибка инициализации', error);
@@ -111,28 +74,16 @@ function checkBannerVisibility() {
     }
 
 }
-    </script>
-    <script>
-
-        // === Показ баннера ===
-        function showBanner() {
-            if (window.TelegramAdsController) {
-                //tgBanner = window.TelegramAdsController.showBanner();
-                console.log("---Banner shown");
-            } else {
-                console.error("---TelegramAdsController not ready");
-            }
-        }
-
-        function hideBanner() {
-            if (tgBanner) {
-                tgBanner.destroy();  // полностью убирает баннер
-                tgBanner = null;
-                console.log("Banner hidden");
-            }
-        }
 
     </script>
+    <!-- Telegram SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
+
+    <!-- Adextra SDK (Full-Screen Video Ad) -->
+    <!-- <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script> -->
+
+    <!-- richinfo SDK (baner) -->
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
 </head>
 <body>
     <!-- Unity Container -->
@@ -145,7 +96,6 @@ function checkBannerVisibility() {
 
     <!-- Adextra Full-Screen Video Ad Container -->
     <!-- <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div> -->
-
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
