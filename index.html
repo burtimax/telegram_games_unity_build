@@ -7,8 +7,28 @@
 
 <link rel="manifest" href="/manifest.json"> 
 <link rel="apple-touch-icon" href="/img/TG180.png">
+    <!-- Telegram SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
 
-<script>
+    <!-- Adextra SDK (Full-Screen Video Ad) -->
+    <!-- <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script> -->
+
+    <!-- richinfo SDK (baner) -->
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
+
+    <style>
+        body {
+            overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+    </style>
+    <script>
         // === Telegram Init ===
         function initTelegramFeatures() {
             if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
@@ -33,46 +53,6 @@
             }
         }
         let tgBanner = null;
-
-        function initTelegramBanner() {
-    if (typeof TelegramAdsController === 'undefined') {
-        console.error('❌ TelegramAdsController is undefined');
-        return;
-    }
-    
-    try {
-        window.TelegramAdsController = new TelegramAdsController();
-        console.log('✅ Constructor called successfully');
-        
-         try {
-            const methods = Object.keys(window.TelegramAdsController);
-            console.log('🟢 Доступные методы:', methods);
-        } catch (e) {
-            console.warn('⚠️ Не удалось получить методы объекта:', e.message);
-        }
-
-        // initialize() возвращает Promise без результата
-        window.TelegramAdsController.initialize({
-            pubId: "982789",
-            appId: "3351",
-        })
-        .then(() => {
-            // Promise выполнен успешно, но без данных
-            console.log('✅ Инициализация успешна (Promise fulfilled)');
-            
-            setTimeout(() => {
-                checkBannerVisibility();
-            }, 2000);
-        })
-        .catch(error => {
-            console.error('❌ Ошибка инициализации', error);
-        });
-        
-    } catch (error) {
-        console.error('❌ Error in initTelegramBanner:', error);
-    }
-
-    // Функция для проверки видимости баннера
 function checkBannerVisibility() {
     console.log('🔍 Проверяем DOM на наличие баннеров...');
     
@@ -98,31 +78,40 @@ function checkBannerVisibility() {
         });
     });
 }
+        function initTelegramBanner() {
+    if (typeof TelegramAdsController === 'undefined') {
+        console.error('❌ TelegramAdsController is undefined');
+        return;
+    }
+    
+    try {
+        window.TelegramAdsController = new TelegramAdsController();
+        console.log('✅ Constructor called successfully');
+        
+
+        // initialize() возвращает Promise без результата
+        window.TelegramAdsController.initialize({
+            pubId: "982789",
+            appId: "3351",
+        })
+        .then(() => {
+            // Promise выполнен успешно, но без данных
+            console.log('✅ Инициализация успешна (Promise fulfilled)');
+
+            setTimeout(() => {
+                checkBannerVisibility();
+            }, 2000);
+        })
+        .catch(error => {
+            console.error('❌ Ошибка инициализации', error);
+        });
+        
+    } catch (error) {
+        console.error('❌ Error in initTelegramBanner:', error);
+    }
 
 }
     </script>
-    <!-- Telegram SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
-
-    <!-- Adextra SDK (Full-Screen Video Ad) -->
-    <!-- <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script> -->
-
-    <!-- richinfo SDK (baner) -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
-
-    <style>
-        body {
-            overflow: hidden;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-        }
-    </style>
-    
     <script>
 
         // === Показ баннера ===
