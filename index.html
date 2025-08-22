@@ -20,7 +20,6 @@
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
         /* Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ */
-       
         
         /* Контейнер для тестовых кнопок */
         #test-controls {
@@ -120,9 +119,6 @@
 
       <!-- Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ -->
     <div id="banner-container">
-        <div id="banner-ad">
-            Тестовый баннер 320x50
-        </div>
     </div>
     
     <!-- Тестовые кнопки управления -->
@@ -149,15 +145,27 @@ if ('serviceWorker' in navigator) {
         //     apiUrl: "https://telegram-games.tg-projects.ru",
         // };
         // Функции для управления баннером
-
+        
 function hideBanner() {
     document.getElementById('banner-container').style.display = 'none';
     console.log('Баннер скрыт');
 }
 
 function showBanner() {
-    document.getElementById('banner-container').style.display = 'flex';
-    console.log('Баннер показан');
+    const banner = document.getElementById('banner-container');
+    
+    // Устанавливаем стили для контейнера-баннера
+    banner.style.display = 'flex';
+    banner.style.position = 'fixed';
+    banner.style.bottom = '0';
+    banner.style.left = '0';
+    banner.style.width = '300px';
+    banner.style.height = '100px';
+    banner.style.justifyContent = 'center';
+    banner.style.alignItems = 'center';
+    banner.style.zIndex = '9999';
+    
+    console.log('Баннер 300x100 показан поверх всех элементов');
 }
 
 function toggleBanner() {
