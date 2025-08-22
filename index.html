@@ -5,8 +5,8 @@
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
-    <link rel="manifest" href="/manifest.json"> 
-    <link rel="apple-touch-icon" href="/img/TG180.png">
+<link rel="manifest" href="/manifest.json"> 
+<link rel="apple-touch-icon" href="/img/TG180.png">
 
     <style>
         body {
@@ -19,7 +19,6 @@
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
-        
         /* Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ */
         #banner-container {
             position: fixed;
@@ -78,7 +77,7 @@
                         Telegram.WebApp.disableVerticalSwipes();
                         Telegram.WebApp.lockOrientation('portrait');
                         console.log("Telegram mobile features initialized");
-                    } else {
+                    }else {
                         console.log("Telegram PC features initialized");
                     }
 
@@ -92,38 +91,43 @@
         }
 
         function initTelegramBanner() {
-            if (typeof TelegramAdsController === 'undefined') {
-                console.error('❌ TelegramAdsController is undefined');
-                return;
-            }
-            
-            try {
-                window.TelegramAdsController = new TelegramAdsController();
-                console.log('✅ Constructor called successfully');
-                
-                // Инициализация рекламного баннера
-                window.TelegramAdsController.initialize({
-                    pubId: "982789", // Ваш publisher ID
-                    appId: "3351",   // Ваш app ID
-                    containerId: "banner-container" // Указываем контейнер для баннера
-                })
-                .then(() => {
-                    console.log('✅ Инициализация баннера успешна');
-                })
-                .catch(error => {
-                    console.error('❌ Ошибка инициализации баннера', error);
-                });
-                
-            } catch (error) {
-                console.error('❌ Error in initTelegramBanner:', error);
-            }
-        }
+    if (typeof TelegramAdsController === 'undefined') {
+        console.error('❌ TelegramAdsController is undefined');
+        return;
+    }
+    
+    try {
+        window.TelegramAdsController = new TelegramAdsController();
+        console.log('✅ Constructor called successfully');
+        
+
+        // initialize() возвращает Promise без результата
+        window.TelegramAdsController.initialize({
+            pubId: "982789",
+            appId: "3351",
+        })
+        .then(() => {
+            // Promise выполнен успешно, но без данных
+            console.log('✅ Инициализация успешна (Promise fulfilled)');
+        })
+        .catch(error => {
+            console.error('❌ Ошибка инициализации', error);
+        });
+        
+    } catch (error) {
+        console.error('❌ Error in initTelegramBanner:', error);
+    }
+
+}
 
     </script>
     <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
 
-    <!-- RichInfo SDK для баннерной рекламы -->
+    <!-- Adextra SDK (Full-Screen Video Ad) -->
+    <!-- <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script> -->
+
+    <!-- richinfo SDK (baner) -->
     <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
 </head>
 <body>
@@ -135,7 +139,10 @@
         <div id="unity-warning"></div>
     </div>
 
-    <!-- Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ -->
+    <!-- Adextra Full-Screen Video Ad Container -->
+    <!-- <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div> -->
+
+      <!-- Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ -->
     <div id="banner-container">
         <div id="banner-ad">
             Тестовый баннер 320x50
@@ -157,8 +164,16 @@ if ('serviceWorker' in navigator) {
       .catch((err) => console.error('SW ошибка', err));
   });
 }
+</script> 
 
-// Функции для управления баннером
+    <script>
+
+        // // --Доменчик залупенчик ---
+        // var unityConfig = {
+        //     apiUrl: "https://telegram-games.tg-projects.ru",
+        // };
+        // Функции для управления баннером
+        
 function hideBanner() {
     document.getElementById('banner-container').style.display = 'none';
     console.log('Баннер скрыт');
@@ -177,15 +192,115 @@ function toggleBanner() {
         hideBanner();
     }
 }
+        // Обработчики фокуса/вкладки
+        function handleFocus() {
+            if (myGameInstance) {
+                myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+            }
+        }
 
-// Экспортируем функции для использования из Unity
-window.hideBanner = hideBanner;
-window.showBanner = showBanner;
-window.toggleBanner = toggleBanner;
-</script> 
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'visible' && myGameInstance) {
+                myGameInstance.SendMessage('PartnersSubscriptionChecker', 'CheckSubscriptionExtern');
+            }
+        }
 
-    <script>
-        // Код Unity...
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', handleFocus);
+
+        var canvas = document.querySelector("#unity-canvas");
+        var logo = document.querySelector("#unity-logo");
+        var addBg = document.querySelector("#additional-background");
+        var warningBanner = document.querySelector("#unity-warning");
+
+        function unityShowBanner(msg, type) {
+            function updateBannerVisibility() {
+                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+            }
+            var div = document.createElement('div');
+            div.innerHTML = msg;
+            warningBanner.appendChild(div);
+            if (type === 'error') div.style = 'background: red; padding: 10px;';
+            else {
+                if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
+                setTimeout(function () {
+                    warningBanner.removeChild(div);
+                    updateBannerVisibility();
+                }, 5000);
+            }
+            updateBannerVisibility();
+        }
+
+        var buildUrl = "Build";
+        var loaderUrl = buildUrl + "/telegram_games_unity_build.loader.js";
+        var config = {
+            arguments: [],
+            dataUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/dev/Build/telegram_games_unity_build.data.unityweb",
+            frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
+            codeUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/dev/Build/telegram_games_unity_build.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DinoCarbone",
+            productName: "DailyRaffles",
+            productVersion: "1.0",
+            showBanner: unityShowBanner,
+        };
+
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            var meta = document.createElement('meta');
+            meta.name = 'viewport';
+            meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+            document.getElementsByTagName('head')[0].appendChild(meta);
+            document.querySelector("#unity-container").className = "unity-mobile";
+            canvas.className = "unity-mobile";
+        }
+
+        let myGameInstance = null;
+
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, () => {
+                // Progress callback (можно сделать отображение прогресса)
+            }).then((unityInstance) => {
+                myGameInstance = unityInstance;
+                logo.style.display = "none";
+                addBg.style.display = "none";
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+        document.body.appendChild(script);
+
+        // === Новый вызов полноэкранной рекламы Adextra ===
+        function showAds() {
+            const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
+
+            const onSuccess = () => {
+                console.log("--Ad Shown Successfully--");
+                fetch('https://example.com/beacon/show/' + id);
+                if (myGameInstance) {
+                    myGameInstance.SendMessage('AdsManager', 'WatchEnd');
+                }
+            };
+
+            const onError = () => {
+                console.log("--Ad Failed or Skipped--");
+                fetch('https://example.com/beacon/error/' + id);
+                if (myGameInstance) {
+                    myGameInstance.SendMessage('AdsManager', 'Close');
+                }
+            };
+
+            if (typeof p_adextra === "function") {
+                p_adextra(onSuccess, onError);
+            } else {
+                console.warn("p_adextra not loaded");
+            }
+        }
+
+        // Вызов рекламы (например, из Unity через SendMessage → showAds)
+        window.showAds = showAds;
     </script>
 </body>
 </html>
+
