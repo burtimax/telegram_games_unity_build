@@ -52,6 +52,7 @@
         .then(() => {
             // Promise выполнен успешно, но без данных
             console.log('✅ Инициализация успешна (Promise fulfilled)');
+            console.log('Доступные методы:', Object.keys(window.TelegramAdsController));
         })
         .catch(error => {
             console.error('❌ Ошибка инициализации', error);
@@ -61,11 +62,6 @@
         console.error('❌ Error in initTelegramBanner:', error);
     }
 }
-
-// Добавьте обработчик ошибок для скрипта
-document.querySelector('script[src*="tg-ob.js"]').onerror = function() {
-    console.error(' Failed to load tg-ob.js');
-};
     </script>
     <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
