@@ -19,6 +19,41 @@
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
+        
+        /* Стили для тестовых кнопок */
+        .test-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10000;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .test-btn {
+            padding: 8px 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        
+        .test-btn.hide {
+            background: #dc3545;
+        }
+        
+        .test-btn.hide:hover {
+            background: #c82333;
+        }
     </style>
     <script>
         // === Telegram Init ===
@@ -46,34 +81,93 @@
         }
 
         function initTelegramBanner() {
-    if (typeof TelegramAdsController === 'undefined') {
-        console.error('❌ TelegramAdsController is undefined');
-        return;
-    }
-    
-    try {
-        window.TelegramAdsController = new TelegramAdsController();
-        console.log('✅ Constructor called successfully');
-        
+            if (typeof TelegramAdsController === 'undefined') {
+                console.error('❌ TelegramAdsController is undefined');
+                return;
+            }
+            
+            try {
+                window.TelegramAdsController = new TelegramAdsController();
+                console.log('✅ Constructor called successfully');
+                
+                window.TelegramAdsController.initialize({
+                    pubId: "982789",
+                    appId: "3351",
+                })
+                .then(() => {
+                    console.log('✅ Инициализация успешна (Promise fulfilled)');
+                })
+                .catch(error => {
+                    console.error('❌ Ошибка инициализации', error);
+                });
+                
+            } catch (error) {
+                console.error('❌ Error in initTelegramBanner:', error);
+            }
+        }
 
-        // initialize() возвращает Promise без результата
-        window.TelegramAdsController.initialize({
-            pubId: "982789",
-            appId: "3351",
-        })
-        .then(() => {
-            // Promise выполнен успешно, но без данных
-            console.log('✅ Инициализация успешна (Promise fulfilled)');
-        })
-        .catch(error => {
-            console.error('❌ Ошибка инициализации', error);
-        });
-        
-    } catch (error) {
-        console.error('❌ Error in initTelegramBanner:', error);
-    }
+        // === Методы для управления уведомлением ===
+        function showNotification() {
+            const notification = document.getElementById('telegram-notification-content');
+            if (notification) {
+                notification.style.display = 'block';
+                console.log('✅ Уведомление показано');
+            } else {
+                console.log('❌ Уведомление не найдено на странице');
+                // Создаем уведомление если его нет
+                createNotification();
+            }
+        }
 
-}
+        function hideNotification() {
+            const notification = document.getElementById('telegram-notification-content');
+            if (notification) {
+                notification.style.display = 'none';
+                console.log('✅ Уведомление скрыто');
+            } else {
+                console.log('❌ Уведомление не найдено');
+            }
+        }
+
+        function createNotification() {
+            // Создаем HTML уведомления
+            const notificationHTML = `
+                <div id="telegram-notification-content" class="notification-container notification-container-bottom">
+                    <div id="el-notification-close-btn" class="close-btn close-btn-push" onclick="hideNotification()"></div>
+                    <div class="first-block">
+                        <a id="notification-sfwov95wx" class="rp-notification show native-block-tg" href="https://eu.skated.co/nty/postback/click?key=v3-14-13988-1471261-01k38t3wsqzvty2rc0z6dxnn4g" target="_blank">
+                            <img src="https://eu.skated.co/nty/metrics/save.img?event=impressions&amp;bid-id=v3-14-13988-1471261-01k38t3wsqzvty2rc0z6dxnn4g&amp;img=https%3A%2F%2Fcdn.amnew.net%2Ffiles%2F689e051141d6a_2025_08_14_03_47_29_image.jpeg" alt="icon" class="notification-icon" id="notification-icon">
+                            <div class="notification-text">
+                                <h4 id="notification-title">СУПЕР БОНУС ОТ 1xBet!🤑</h4>
+                                <p id="notification-description">Получи Приветственный Бонус За Регистрацию!🎁</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            // Добавляем уведомление в body
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = notificationHTML;
+            document.body.appendChild(tempDiv.firstElementChild);
+            
+            console.log('✅ Уведомление создано');
+        }
+
+        // Проверяем наличие уведомления при загрузке
+        function checkNotification() {
+            const notification = document.getElementById('telegram-notification-content');
+            if (notification) {
+                console.log('✅ Уведомление найдено на странице');
+                // Добавляем обработчик для кнопки закрытия
+                const closeBtn = document.getElementById('el-notification-close-btn');
+                if (closeBtn) {
+                    closeBtn.onclick = hideNotification;
+                }
+            } else {
+                console.log('❌ Уведомление не найдено на странице');
+            }
+        }
 
     </script>
     <!-- Telegram SDK -->
@@ -85,7 +179,13 @@
     <!-- richinfo SDK (baner) -->
     <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
 </head>
-<body>
+<body onload="checkNotification()">
+    <!-- Тестовые кнопки управления -->
+    <div class="test-controls">
+        <button class="test-btn" onclick="showNotification()">Показать уведомление</button>
+        <button class="test-btn hide" onclick="hideNotification()">Скрыть уведомление</button>
+    </div>
+
     <!-- Unity Container -->
     <div id="unity-container" style="position: absolute; width: 100%; height: 100%; left: 0%; top: 0%;">
         <canvas id="unity-canvas" style="position: absolute; width: 100%; height: 100%;" tabindex="-1"></canvas>
@@ -186,7 +286,6 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
-                showBanner();
             }).catch((message) => {
                 alert(message);
             });
@@ -225,4 +324,3 @@ if ('serviceWorker' in navigator) {
     </script>
 </body>
 </html>
-
