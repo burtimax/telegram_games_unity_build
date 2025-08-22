@@ -118,8 +118,7 @@
     <!-- <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div> -->
 
       <!-- Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ -->
-    <div id="banner-container">
-    </div>
+    
     
     <!-- Тестовые кнопки управления -->
     <div id="test-controls">
@@ -152,20 +151,8 @@ function hideBanner() {
 }
 
 function showBanner() {
-    const banner = document.getElementById('banner-container');
-    
-    // Устанавливаем стили для контейнера-баннера
-    banner.style.display = 'flex';
-    banner.style.position = 'fixed';
-    banner.style.bottom = '0';
-    banner.style.left = '0';
-    banner.style.width = '300px';
-    banner.style.height = '100px';
-    banner.style.justifyContent = 'center';
-    banner.style.alignItems = 'center';
-    banner.style.zIndex = '9999';
-    
-    console.log('Баннер 300x100 показан поверх всех элементов');
+    document.getElementById('banner-container').style.display = 'flex';
+    console.log('Баннер показан');
 }
 
 function toggleBanner() {
