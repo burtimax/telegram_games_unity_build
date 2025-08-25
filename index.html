@@ -27,7 +27,7 @@
             width: 100%;
             height: 100px;
             background-color: transparent;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -35,17 +35,16 @@
 
         /* Сам баннер */
         #banner-ad {
-    width: min(300px, 80vw); /* Меньшее из: 300px или 80% ширины окна */
-    aspect-ratio: 3 / 1; /* Сохраняем соотношение сторон */
-    max-height: 150px; /* Ограничиваем максимальную высоту */
-    background-color: #E09940;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    font-size: clamp(12px, 3vw, 16px); /* Адаптивный размер текста */
-}
+            width: 300px;
+            height: 100px;
+            background-color: #E09940;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
         
         /* Контейнер для тестовых кнопок */
         #test-controls {
