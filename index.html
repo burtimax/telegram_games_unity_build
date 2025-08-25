@@ -21,30 +21,37 @@
         }
         /* Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ */
         #banner-container {
-            position: fixed;
-            top: 55.17vh; /* Динамический расчет от высоты окна */
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background-color: transparent;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+    position: fixed;
+    top: 55.17vh;
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Смещение для точного центра */
+    width: 300px; /* Фиксированная ширина как у баннера */
+    background-color: transparent;
+    display: none;
+    flex-direction: column; /* Вертикальное расположение */
+    align-items: center; /* Центрирование по горизонтали */
+    z-index: 1000;
+    padding: 20px; /* Отступы внутри контейнера */
+    box-sizing: border-box; /* Чтобы padding не увеличивал размер */
+}
 
-        /* Сам баннер */
-        #banner-ad {
-    width: 300px;
-    aspect-ratio: 3 / 1; /* Соотношение 3:1 (ширина:высота) */
-    /* height: 100px; УДАЛИТЬ! */
+/* Сам баннер */
+#banner-ad {
+    width: 100%; /* Занимает всю ширину контейнера */
+    height: auto; /* Высота определяется содержимым */
+    min-height: 100px; /* Минимальная высота */
     background-color: #E09940;
     color: white;
     display: flex;
+    flex-direction: column; /* Для многострочного текста */
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
     font-size: 16px;
+    text-align: center; /* Выравнивание текста по центру */
+    padding: 15px; /* Отступы внутри баннера */
+    box-sizing: border-box;
+    border-radius: 10px; /* Закругленные углы как на скриншотах */
 }
         
         /* Контейнер для тестовых кнопок */
