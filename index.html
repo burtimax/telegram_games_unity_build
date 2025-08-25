@@ -35,16 +35,16 @@
 
         /* Сам баннер */
         #banner-ad {
-    width: 300px;
-    aspect-ratio: 3 / 1; /* Соотношение 3:1 (ширина:высота) */
-    /* height: 100px; УДАЛИТЬ! */
+    width: min(300px, 80vw); /* Меньшее из: 300px или 80% ширины окна */
+    aspect-ratio: 3 / 1; /* Сохраняем соотношение сторон */
+    max-height: 150px; /* Ограничиваем максимальную высоту */
     background-color: #E09940;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    font-size: 16px;
+    font-size: clamp(12px, 3vw, 16px); /* Адаптивный размер текста */
 }
         
         /* Контейнер для тестовых кнопок */
