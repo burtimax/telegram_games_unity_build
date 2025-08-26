@@ -45,25 +45,6 @@
     font-family: Arial, sans-serif;
     font-size: 1.8vh;
 }
-        
-        /* Контейнер для тестовых кнопок */
-        #test-controls {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            z-index: 1001;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-        }
-        
-        #test-controls button {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
     </style>
     <script>
         // === Telegram Init ===
@@ -148,12 +129,6 @@
         </div>
     </div>
     
-    <!-- Тестовые кнопки управления -->
-    <div id="test-controls">
-        <button onclick="hideBanner()">Скрыть баннер</button>
-        <button onclick="showBanner()">Показать баннер</button>
-        <button onclick="toggleBanner()">Переключить видимость</button>
-    </div>
 
 <script>
 if ('serviceWorker' in navigator) {
