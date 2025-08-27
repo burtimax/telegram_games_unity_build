@@ -21,29 +21,25 @@
         }
         /* Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ */
         #banner-container {
+    display: none; /* Изначально скрыт */
     position: fixed;
     top: 55.17vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36vh; /* Ширина = 33% от высоты окна */
-    aspect-ratio: 3 / 1; /* Соотношение 3:1 (как 300x100) */
+    left: 0;
+    width: 100%;
+    height: 100px; /* Новая высота */
     background-color: transparent;
-    display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999; /* Поверх всех элементов */
 }
 
 #banner-ad {
-    width: 100%;
-    height: 100%;
+    width: 300px; /* Новая ширина */
+    height: 100px; /* Новая высота */
     background-color: #E09940;
-    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
-    font-size: 1.8vh;
 }
     </style>
     <script>
