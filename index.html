@@ -2,10 +2,13 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
-<link rel="manifest" href="/manifest.json"> 
+<link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/img/TG180.png">
 
     <style>
@@ -72,11 +75,11 @@
         console.error('❌ TelegramAdsController is undefined');
         return;
     }
-    
+
     try {
         window.TelegramAdsController = new TelegramAdsController();
         console.log('✅ Constructor called successfully');
-        
+
 
         // initialize() возвращает Promise без результата
         window.TelegramAdsController.initialize({
@@ -90,7 +93,7 @@
         .catch(error => {
             console.error('❌ Ошибка инициализации', error);
         });
-        
+
     } catch (error) {
         console.error('❌ Error in initTelegramBanner:', error);
     }
@@ -111,7 +114,7 @@
     <!-- Unity Container -->
     <div id="unity-container" style="position: absolute; width: 100%; height: 100%; left: 0%; top: 0%;">
         <canvas id="unity-canvas" style="position: absolute; width: 100%; height: 100%;" tabindex="-1"></canvas>
-        <div id="additional-background"></div> 
+        <div id="additional-background"></div>
         <div id="unity-logo"></div>
         <div id="unity-warning"></div>
     </div>
@@ -124,7 +127,7 @@
         <div id="banner-ad">
         </div>
     </div>
-    
+
 
 <script>
 if ('serviceWorker' in navigator) {
@@ -134,7 +137,7 @@ if ('serviceWorker' in navigator) {
       .catch((err) => console.error('SW ошибка', err));
   });
 }
-</script> 
+</script>
 
     <script>
 
@@ -143,7 +146,7 @@ if ('serviceWorker' in navigator) {
         //     apiUrl: "https://telegram-games.tg-projects.ru",
         // };
         // Функции для управления баннером
-        
+
 function hideBanner() {
     document.getElementById('banner-container').style.display = 'none';
     console.log('Баннер скрыт');
