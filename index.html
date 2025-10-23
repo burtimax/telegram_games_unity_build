@@ -23,28 +23,6 @@
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
-        /* Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ */
-        #banner-container {
-    display: none; /* Изначально скрыт */
-    position: fixed;
-    top: 56vh;
-    left: 0;
-    width: 100%;
-    height: 100px; /* Новая высота */
-    background-color: transparent;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Поверх всех элементов */
-}
-
-#banner-ad {
-    width: 300px; /* Новая ширина */
-    height: 100px; /* Новая высота */
-    background-color: #E09940;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
     </style>
     <script>
         // === Telegram Init ===
@@ -70,46 +48,12 @@
                 console.error("Telegram SDK not found!");
             }
         }
-
-        function initTelegramBanner() {
-    if (typeof TelegramAdsController === 'undefined') {
-        console.error('❌ TelegramAdsController is undefined');
-        return;
-    }
-
-    try {
-        window.TelegramAdsController = new TelegramAdsController();
-        console.log('✅ Constructor called successfully');
-
-
-        // initialize() возвращает Promise без результата
-        window.TelegramAdsController.initialize({
-            pubId: "982789",
-            appId: "3351",
-        })
-        .then(() => {
-            // Promise выполнен успешно, но без данных
-            console.log('✅ Инициализация успешна (Promise fulfilled)');
-        })
-        .catch(error => {
-            console.error('❌ Ошибка инициализации', error);
-        });
-
-    } catch (error) {
-        console.error('❌ Error in initTelegramBanner:', error);
-    }
-
-}
-
     </script>
     <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js" onload="initTelegramFeatures()"></script>
 
     <!-- Adextra SDK (Full-Screen Video Ad) -->
     <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
-
-    <!-- richinfo SDK (baner) -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js" onload="initTelegramBanner()"></script>
 </head>
 <body>
     <!-- Unity Container -->
@@ -123,13 +67,6 @@
     <!-- Adextra Full-Screen Video Ad Container -->
     <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
 
-      <!-- Контейнер для баннера - ЭТОТ ID НУЖНО ПЕРЕДАТЬ МЕНЕДЖЕРУ -->
-    <div id="banner-container">
-        <div id="banner-ad">
-        </div>
-    </div>
-
-
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -141,31 +78,6 @@ if ('serviceWorker' in navigator) {
 </script>
 
     <script>
-
-        // // --Доменчик залупенчик ---
-        // var unityConfig = {
-        //     apiUrl: "https://telegram-games.tg-projects.ru",
-        // };
-        // Функции для управления баннером
-
-function hideBanner() {
-    document.getElementById('banner-container').style.display = 'none';
-    console.log('Баннер скрыт');
-}
-
-function showBanner() {
-    document.getElementById('banner-container').style.display = 'flex';
-    console.log('Баннер показан');
-}
-
-function toggleBanner() {
-    const banner = document.getElementById('banner-container');
-    if (banner.style.display === 'none') {
-        showBanner();
-    } else {
-        hideBanner();
-    }
-}
         // Обработчики фокуса/вкладки
         function handleFocus() {
             if (myGameInstance) {
@@ -277,4 +189,3 @@ function toggleBanner() {
     </script>
 </body>
 </html>
-
