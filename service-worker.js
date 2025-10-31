@@ -1,5 +1,5 @@
-﻿const CACHE_NAME = 'unity-game-cache-v8';
-const METADATA_CACHE = 'unity-game-metadata-v';
+﻿const CACHE_NAME = 'unity-game-cache-v9';
+const METADATA_CACHE = 'unity-game-metadata-v9';
 const TTL_DAYS = 14;
 const TTL_MS = TTL_DAYS * 24 * 60 * 60 * 1000;
 
