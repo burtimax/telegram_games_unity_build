@@ -1,10 +1,12 @@
-﻿const CACHE_NAME = 'unity-game-cache-v16';
-const METADATA_CACHE = 'unity-game-metadata-v16';
+﻿const CACHE_NAME = 'unity-game-cache-v17';
+const METADATA_CACHE = 'unity-game-metadata-v17';
 const TTL_DAYS = 14;
 const TTL_MS = TTL_DAYS * 24 * 60 * 60 * 1000;
 
 const URLS_TO_CACHE = [
+  'https://telegram-games-tma.tg-projects.ru/Build/telegram_games_unity_build.data.unityweb',
   'https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.data.unityweb',
+  'https://telegram-games-tma.tg-projects.ru/Build/telegram_games_unity_build.wasm.unityweb',
   'https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.wasm.unityweb'
 ];
 

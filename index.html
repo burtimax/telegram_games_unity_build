@@ -121,9 +121,11 @@ if ('serviceWorker' in navigator) {
         var loaderUrl = buildUrl + "/telegram_games_unity_build.loader.js";
         var config = {
             arguments: [],
-            dataUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.data.unityweb",
+            dataUrl1: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.data.unityweb",
+            dataUrl: buildUrl + "/telegram_games_unity_build.data.unityweb",
             frameworkUrl: buildUrl + "/telegram_games_unity_build.framework.js.unityweb",
-            codeUrl: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.wasm.unityweb",
+            codeUrl1: "https://raw.githubusercontent.com/burtimax/telegram_games_unity_build/refs/heads/master/Build/telegram_games_unity_build.wasm.unityweb",
+            codeUrl: buildUrl + "/telegram_games_unity_build.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DinoCarbone",
             productName: "DailyRaffles",
