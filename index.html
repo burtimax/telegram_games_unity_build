@@ -106,7 +106,41 @@
 }
 
 /* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .adsgram-container {
+        max-width: 300px;
+        width: calc(100% - 32px);
+    }
+    
+    .task {
+        padding: 10px 12px;
+    }
+    
+    .task_button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    .task_reward {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+}
 
+@media (max-width: 360px) {
+    .adsgram-container {
+        max-width: 280px;
+    }
+    
+    .task {
+        padding: 8px 10px;
+    }
+    
+    .task_button {
+        padding: 6px 6px;
+        font-size: 13px;
+    }
+}
         /* Анимации для событий */
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -119,22 +153,7 @@
         }
 
         /* Сообщения о статусе */
-        .status-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            z-index: 2000;
-            font-family: 'Roboto', Arial, sans-serif;
-            font-weight: bold;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            display: none;
-        }
+        
     </style>
     <script>
         // === Telegram Init ===
