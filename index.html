@@ -26,12 +26,14 @@
 
         /* Стили для AdsGram Task */
         .adsgram-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            max-width: 350px;
-        }
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    max-width: 350px;
+    width: 90%;
+}
 
         .task {
             --adsgram-task-font-size: 16px;
@@ -173,7 +175,7 @@
     <!-- AdsGram Task Container -->
     <div class="adsgram-container">
         <adsgram-task
-            data-block-id='task-7308'
+            data-block-id='task-17961'
             data-debug='true'
             data-debug-console='false'
             class='task'
