@@ -9,8 +9,8 @@
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
-<link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/img/TG180.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/img/TG180.png">
 
     <style>
         body {
@@ -24,7 +24,8 @@
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
 
-        .adsgram-container {
+        /* Стили для AdsGram Task */
+       .adsgram-container {
     position: absolute;
     top: 20px;
     left: 50%;
@@ -142,7 +143,9 @@
         font-size: 13px;
     }
 }
+        /* Анимации для событий */
         
+
         /* Сообщения о статусе */
         .status-message {
             position: fixed;
@@ -173,7 +176,7 @@
                         Telegram.WebApp.disableVerticalSwipes();
                         Telegram.WebApp.lockOrientation('portrait');
                         console.log("Telegram mobile features initialized");
-                    }else {
+                    } else {
                         console.log("Telegram PC features initialized");
                     }
 
@@ -191,6 +194,8 @@
 
     <!-- Adextra SDK (Full-Screen Video Ad) -->
     <script async src="https://partner.adextra.io/jt/bdb4668e659ee063bd17359de7eba3d726e43e70.js"></script>
+    <!-- Adsgram SDK -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 </head>
 <body>
     <!-- Unity Container -->
@@ -203,6 +208,24 @@
 
     <!-- Adextra Full-Screen Video Ad Container -->
     <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
+
+    <!-- AdsGram Task Container -->
+    <div class="adsgram-container">
+        <adsgram-task
+            data-block-id='task-17961'
+            data-debug='true'
+            data-debug-console='false'
+            class='task'
+        >
+            <p slot="reward" class="task_reward">Тестовая попытка</p>
+            <div slot="button" class="task_button">Вперёд!</div>
+            <div slot="claim" class="task_button">Выполнено</div>
+            <div slot="done" class="task_button task_button_done">Готово</div>
+        </adsgram-task>
+    </div>
+
+    <!-- Сообщения о статусе -->
+    <div id="status-message" class="status-message"></div>
 
 <script>
 if ('serviceWorker' in navigator) {
@@ -290,6 +313,9 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
+                
+                // Инициализация AdsGram после загрузки Unity
+                initAdsGramTask();
             }).catch((message) => {
                 alert(message);
             });
@@ -302,7 +328,7 @@ if ('serviceWorker' in navigator) {
 
             const onSuccess = () => {
                 console.log("--Ad Shown Successfully--");
-                fetch('https://example.com/beacon/show/' + id);
+                //fetch('https://example.com/beacon/show/' + id);
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'WatchEnd');
                 }
@@ -310,7 +336,7 @@ if ('serviceWorker' in navigator) {
 
             const onError = () => {
                 console.log("--Ad Failed or Skipped--");
-                fetch('https://example.com/beacon/error/' + id);
+                //fetch('https://example.com/beacon/error/' + id);
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'Close');
                 }
@@ -325,6 +351,69 @@ if ('serviceWorker' in navigator) {
 
         // Вызов рекламы (например, из Unity через SendMessage → showAds)
         window.showAds = showAds;
+
+        // === AdsGram Task Logic ===
+        function initAdsGramTask() {
+            const taskElement = document.querySelector('adsgram-task');
+            const statusMessage = document.getElementById('status-message');
+            
+            if (!taskElement) {
+                console.error('AdsGram task element not found');
+                return;
+            }
+
+            // Функция для показа сообщений
+            function showStatusMessage(message, duration = 3000) {
+                if (statusMessage) {
+                    statusMessage.textContent = message;
+                    statusMessage.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        statusMessage.style.display = 'none';
+                    }, duration);
+                }
+            }
+
+            // Обработчик события reward
+            taskElement.addEventListener('reward', (event) => {
+                console.log('AdsGram Task completed!', event);
+                showStatusMessage('Награда получена! Тестовая попытка!');
+                
+                // Анимация для элемента с наградой
+                
+                
+                // Отправка сообщения в Unity о получении награды
+                // if (myGameInstance) {
+                //     myGameInstance.SendMessage('AdsManager', 'TaskCompleted');
+                // }
+            });
+
+            // Обработчик ошибок
+            taskElement.addEventListener('onError', (event) => {
+                console.error('AdsGram Task error:', event);
+                showStatusMessage('Ошибка загрузки задания', 5000);
+            });
+
+            // Обработчик отсутствия баннера
+            taskElement.addEventListener('onBannerNotFound', (event) => {
+                console.warn('AdsGram Task banner not found:', event);
+                showStatusMessage('Задания временно недоступны', 5000);
+                
+                // Скрываем контейнер с заданием
+                const container = document.querySelector('.adsgram-container');
+                if (container) {
+                    container.style.display = 'none';
+                }
+            });
+
+            // Обработчик долгой сессии
+            taskElement.addEventListener('onTooLongSession', (event) => {
+                console.warn('AdsGram Task session too long:', event);
+                showStatusMessage('Сессия слишком долгая, перезапустите приложение', 5000);
+            });
+
+            console.log('AdsGram Task initialized with event listeners');
+        }
     </script>
 </body>
 </html>
