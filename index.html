@@ -59,20 +59,25 @@
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .task_reward {
+       .task {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем дочерние элементы */
+}
+
+.task_reward {
     background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
     color: #5d4037;
     font-weight: bold;
     padding: 6px 12px;
     border-radius: 20px;
-    display: block; /* Изменяем на block */
-    margin: 0 24px 10px 24px; /* Отступы: сверху 0, справа 24px, снизу 10px, слева 24px */
+    margin-bottom: 10px;
     box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
-    text-align: center; /* Центрируем текст */
-    width: calc(100% - 48px); /* Ширина 100% минус отступы 24px*2 */
-    box-sizing: border-box; /* Учитываем padding в ширине */
+    text-align: center;
+    width: calc(100% - 48px); /* 24px слева + 24px справа */
+    max-width: 100%;
+    box-sizing: border-box;
 }
-
         .task_button {
             background: linear-gradient(135deg, #34a853 0%, #4caf50 100%);
             color: white;
