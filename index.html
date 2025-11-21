@@ -23,6 +23,7 @@
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
+
         .adsgram-container {
     position: absolute;
     top: 20px;
@@ -141,19 +142,24 @@
         font-size: 13px;
     }
 }
-        /* Анимации для событий */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .task-reward-animation {
-            animation: pulse 0.5s ease-in-out 2;
-        }
-
-        /* Сообщения о статусе */
         
+        /* Сообщения о статусе */
+        .status-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            z-index: 2000;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
     </style>
     <script>
         // === Telegram Init ===
