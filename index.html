@@ -36,9 +36,9 @@
     width: calc(100% - 32px); /* 16px слева + 16px справа */
 }
 
-.adsgram-container.loaded {
-    display: block; /* Показываем когда добавляем класс loaded */
-}
+ .adsgram-container.loaded {
+            display: block;
+        }
 .task {
     --adsgram-task-font-size: 16px;
     --adsgram-task-icon-size: 58px;
@@ -330,18 +330,16 @@ if ('serviceWorker' in navigator) {
 
          function showAdsgramContainer() {
     const adsgramContainer = document.getElementById('adsgram-container');
-    if (adsgramContainer) {
-        adsgramContainer.classList.add('loaded');
-        console.log('AdsGram container shown (class added)');
-    }
+                if (adsgramContainer) {
+                    adsgramContainer.classList.add('loaded');
+                }
 }
 
 function hideAdsgramContainer() {
     const adsgramContainer = document.getElementById('adsgram-container');
-    if (adsgramContainer) {
-        adsgramContainer.classList.remove('loaded');
-        console.log('AdsGram container hidden (class removed)');
-    }
+                if (adsgramContainer) {
+                    adsgramContainer.classList.remove('loaded');
+                }
 }
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
