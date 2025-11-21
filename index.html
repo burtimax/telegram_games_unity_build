@@ -180,10 +180,10 @@
             data-debug-console='false'
             class='task'
         >
-            <p slot="reward" class="task_reward">10e</p>
-            <div slot="button" class="task_button">GO</div>
-            <div slot="claim" class="task_button">CLAIM</div>
-            <div slot="done" class="task_button task_button_done">DONE</div>
+            <p slot="reward" class="task_reward">Тестовая попытка</p>
+            <div slot="button" class="task_button">Вперёд!</div>
+            <div slot="claim" class="task_button">Выполнено</div>
+            <div slot="done" class="task_button task_button_done">Готово</div>
         </adsgram-task>
     </div>
 
@@ -291,7 +291,7 @@ if ('serviceWorker' in navigator) {
 
             const onSuccess = () => {
                 console.log("--Ad Shown Successfully--");
-                fetch('https://example.com/beacon/show/' + id);
+                //fetch('https://example.com/beacon/show/' + id);
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'WatchEnd');
                 }
@@ -299,7 +299,7 @@ if ('serviceWorker' in navigator) {
 
             const onError = () => {
                 console.log("--Ad Failed or Skipped--");
-                fetch('https://example.com/beacon/error/' + id);
+                //fetch('https://example.com/beacon/error/' + id);
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'Close');
                 }
@@ -340,7 +340,7 @@ if ('serviceWorker' in navigator) {
             // Обработчик события reward
             taskElement.addEventListener('reward', (event) => {
                 console.log('AdsGram Task completed!', event);
-                showStatusMessage('Награда получена! +10 монет');
+                showStatusMessage('Награда получена! Тестовая попытка!');
                 
                 // Анимация для элемента с наградой
                 const rewardElement = taskElement.querySelector('[slot="reward"]');
