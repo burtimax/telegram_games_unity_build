@@ -217,9 +217,9 @@
             data-debug-console='false'
             class='task'
         >
-            <p slot="reward" class="task_reward">Тестовая попытка</p>
-            <div slot="button" class="task_button">Вперёд!</div>
-            <div slot="claim" class="task_button">Выполнено</div>
+            <p slot="reward" class="task_reward">+1 Тест</p>
+            <div slot="button" class="task_button">GO!</div>
+            <div slot="claim" class="task_button">...</div>
             <div slot="done" class="task_button task_button_done">Готово</div>
         </adsgram-task>
     </div>
@@ -377,7 +377,7 @@ if ('serviceWorker' in navigator) {
             // Обработчик события reward
             taskElement.addEventListener('reward', (event) => {
                 console.log('AdsGram Task completed!', event);
-                showStatusMessage('Награда получена! Тестовая попытка!');
+                showStatusMessage('Задание выполнено! Тестовая попытка получена!');
                 
                 // Анимация для элемента с наградой
                 
