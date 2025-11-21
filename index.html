@@ -329,17 +329,20 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
 
          function showAdsgramContainer() {
-    const adsgramContainer = document.getElementById('adsgram-container');
-                if (adsgramContainer) {
-                    adsgramContainer.classList.add('loaded');
-                }
+    const adsgramContainer = document.querySelector('.adsgram-container');
+    if (adsgramContainer) {
+        adsgramContainer.classList.add('loaded');
+        console.log('AdsGram container shown'); // для отладки
+    } else {
+        console.error('AdsGram container not found'); // для отладки
+    }
 }
 
 function hideAdsgramContainer() {
-    const adsgramContainer = document.getElementById('adsgram-container');
-                if (adsgramContainer) {
-                    adsgramContainer.classList.remove('loaded');
-                }
+    const adsgramContainer = document.querySelector('.adsgram-container');
+    if (adsgramContainer) {
+        adsgramContainer.classList.remove('loaded');
+    }
 }
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
