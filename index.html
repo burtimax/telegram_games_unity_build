@@ -26,6 +26,7 @@
 
         /* Стили для AdsGram Task */
        .adsgram-container {
+        display: none;
     position: absolute;
     top: 20px;
     left: 50%;
@@ -313,6 +314,8 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
+
+                showAdsgramContainer();
                 
                 // Инициализация AdsGram после загрузки Unity
                 initAdsGramTask();
@@ -322,6 +325,21 @@ if ('serviceWorker' in navigator) {
         };
         document.body.appendChild(script);
 
+         function showAdsgramContainer() {
+            const adsgramContainer = document.getElementById('adsgram-container');
+            if (adsgramContainer) {
+                adsgramContainer.style.display = 'block';
+                console.log('AdsGram container shown');
+            }
+        }
+
+            function hideAdsgramContainer() {
+            const adsgramContainer = document.getElementById('adsgram-container');
+            if (adsgramContainer) {
+                adsgramContainer.style.display = 'none';
+                console.log('AdsGram container hidden');
+            }
+        }
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
             const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
@@ -373,7 +391,7 @@ if ('serviceWorker' in navigator) {
                     }, duration);
                 }
             }
-
+               
             // Обработчик события reward
             taskElement.addEventListener('reward', (event) => {
                 console.log('AdsGram Task completed!', event);
