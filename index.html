@@ -9,8 +9,8 @@
     <title>Unity Web Player | DailyRaffles</title>
     <link rel="stylesheet" href="TemplateData/style.css">
 
-<link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/img/TG180.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/img/TG180.png">
 
     <style>
         body {
@@ -22,6 +22,107 @@
             -ms-user-select: none;
             user-select: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+        /* Стили для AdsGram Task */
+        .adsgram-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .task {
+            --adsgram-task-font-size: 16px;
+            --adsgram-task-icon-size: 58px;
+            --adsgram-task-icon-title-gap: 15px;
+            --adsgram-task-button-width: 80px;
+            --adsgram-task-icon-border-radius: 12px;
+
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            font-family: 'Roboto', Arial, sans-serif;
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .task:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .task_reward {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: #5d4037;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
+        }
+
+        .task_button {
+            background: linear-gradient(135deg, #34a853 0%, #4caf50 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(52, 168, 83, 0.4);
+        }
+
+        .task_button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.6);
+        }
+
+        .task_button_done {
+            background: linear-gradient(135deg, #9e9e9e 0%, #757575 100%);
+            box-shadow: 0 2px 8px rgba(117, 117, 117, 0.4);
+        }
+
+        .task_button_done:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(117, 117, 117, 0.4);
+        }
+
+        /* Анимации для событий */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .task-reward-animation {
+            animation: pulse 0.5s ease-in-out 2;
+        }
+
+        /* Сообщения о статусе */
+        .status-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            z-index: 2000;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: none;
         }
     </style>
     <script>
@@ -36,7 +137,7 @@
                         Telegram.WebApp.disableVerticalSwipes();
                         Telegram.WebApp.lockOrientation('portrait');
                         console.log("Telegram mobile features initialized");
-                    }else {
+                    } else {
                         console.log("Telegram PC features initialized");
                     }
 
@@ -65,16 +166,27 @@
         <div id="unity-logo"></div>
         <div id="unity-warning"></div>
     </div>
-    
-    <adsgram-task data-block-id='task-17961' data-debug='true' class='task'>
-  <p slot='reward' class='task__reward'>🪙 100</p>
-  <div slot='button' class='task__button'>вперед</div>
-  <div slot='claim' class='task__button task__button_claim'>получить</div>
-  <div slot='done' class='task__button task__button_done'>готово</div>
-</adsgram-task>
 
     <!-- Adextra Full-Screen Video Ad Container -->
     <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
+
+    <!-- AdsGram Task Container -->
+    <div class="adsgram-container">
+        <adsgram-task
+            data-block-id='task-7308'
+            data-debug='true'
+            data-debug-console='false'
+            class='task'
+        >
+            <p slot="reward" class="task_reward">10e</p>
+            <div slot="button" class="task_button">GO</div>
+            <div slot="claim" class="task_button">CLAIM</div>
+            <div slot="done" class="task_button task_button_done">DONE</div>
+        </adsgram-task>
+    </div>
+
+    <!-- Сообщения о статусе -->
+    <div id="status-message" class="status-message"></div>
 
 <script>
 if ('serviceWorker' in navigator) {
@@ -162,6 +274,9 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
+                
+                // Инициализация AdsGram после загрузки Unity
+                initAdsGramTask();
             }).catch((message) => {
                 alert(message);
             });
@@ -197,6 +312,75 @@ if ('serviceWorker' in navigator) {
 
         // Вызов рекламы (например, из Unity через SendMessage → showAds)
         window.showAds = showAds;
+
+        // === AdsGram Task Logic ===
+        function initAdsGramTask() {
+            const taskElement = document.querySelector('adsgram-task');
+            const statusMessage = document.getElementById('status-message');
+            
+            if (!taskElement) {
+                console.error('AdsGram task element not found');
+                return;
+            }
+
+            // Функция для показа сообщений
+            function showStatusMessage(message, duration = 3000) {
+                if (statusMessage) {
+                    statusMessage.textContent = message;
+                    statusMessage.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        statusMessage.style.display = 'none';
+                    }, duration);
+                }
+            }
+
+            // Обработчик события reward
+            taskElement.addEventListener('reward', (event) => {
+                console.log('AdsGram Task completed!', event);
+                showStatusMessage('Награда получена! +10 монет');
+                
+                // Анимация для элемента с наградой
+                const rewardElement = taskElement.querySelector('[slot="reward"]');
+                if (rewardElement) {
+                    rewardElement.classList.add('task-reward-animation');
+                    setTimeout(() => {
+                        rewardElement.classList.remove('task-reward-animation');
+                    }, 1000);
+                }
+                
+                // Отправка сообщения в Unity о получении награды
+                // if (myGameInstance) {
+                //     myGameInstance.SendMessage('AdsManager', 'TaskCompleted');
+                // }
+            });
+
+            // Обработчик ошибок
+            taskElement.addEventListener('onError', (event) => {
+                console.error('AdsGram Task error:', event);
+                showStatusMessage('Ошибка загрузки задания', 5000);
+            });
+
+            // Обработчик отсутствия баннера
+            taskElement.addEventListener('onBannerNotFound', (event) => {
+                console.warn('AdsGram Task banner not found:', event);
+                showStatusMessage('Задания временно недоступны', 5000);
+                
+                // Скрываем контейнер с заданием
+                const container = document.querySelector('.adsgram-container');
+                if (container) {
+                    container.style.display = 'none';
+                }
+            });
+
+            // Обработчик долгой сессии
+            taskElement.addEventListener('onTooLongSession', (event) => {
+                console.warn('AdsGram Task session too long:', event);
+                showStatusMessage('Сессия слишком долгая, перезапустите приложение', 5000);
+            });
+
+            console.log('AdsGram Task initialized with event listeners');
+        }
     </script>
 </body>
 </html>
