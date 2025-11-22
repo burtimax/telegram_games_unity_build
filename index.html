@@ -333,13 +333,8 @@ if ('serviceWorker' in navigator) {
         if (taskElement) {
             const innerButton = taskElement.querySelector('.task_button');
             if (innerButton) {
-                console.log('Found button inside adsgram-task, clicking...');
-                const clickEvent = new MouseEvent('click', {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true
-                });
-                innerButton.dispatchEvent(clickEvent);
+                console.log('Clicking button inside adsgram-task');
+                taskButton.click();
             }
             else {
                 console.log('Button inside adsgram-task not found');
