@@ -329,38 +329,32 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-      const taskButton = document.querySelector('adsgram-task .task_button');
-        if (taskButton) {
-            console.log('Task button found');
-            taskButton.click();
-        } else {
-        console.error('Task button not found');
+      const taskElement = document.querySelector('adsgram-task');
+        if (taskElement) {
+            const innerButton = taskElement.querySelector('.task_button');
+            if (innerButton) {
+                console.log('Found button inside adsgram-task, clicking...');
+                const clickEvent = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                });
+                innerButton.dispatchEvent(clickEvent);
+            }
+            else {
+                console.log('Button inside adsgram-task not found');
+            }
+    }
+    else {
+        console.error('adsgram-task element not found');
     }
 }
-
-//          function showAdsgramContainer() {
-//     const adsgramContainer = document.querySelector('.adsgram-container');
-//     if (adsgramContainer) {
-//         adsgramContainer.classList.add('loaded');
-//         console.log('AdsGram container shown'); // для отладки
-//     } else {
-//         console.error('AdsGram container not found'); // для отладки
-//     }
-// }
-
-// function hideAdsgramContainer() {
-//     const adsgramContainer = document.querySelector('.adsgram-container');
-//     if (adsgramContainer) {
-//         adsgramContainer.classList.remove('loaded');
-//     }
-// }
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
             const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
 
             const onSuccess = () => {
                 console.log("--Ad Shown Successfully--");
-                //fetch('https://example.com/beacon/show/' + id);
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'WatchEnd');
                 }
@@ -368,7 +362,6 @@ if ('serviceWorker' in navigator) {
 
             const onError = () => {
                 console.log("--Ad Failed or Skipped--");
-                //fetch('https://example.com/beacon/error/' + id);
                 if (myGameInstance) {
                     myGameInstance.SendMessage('AdsManager', 'Close');
                 }
