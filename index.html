@@ -330,17 +330,23 @@ if ('serviceWorker' in navigator) {
         
         function showTaskAds() {
       const taskElement = document.querySelector('adsgram-task');
-        if (taskElement) {
-            const innerButton = taskElement.querySelector('.task_button');
-            if (innerButton) {
-                console.log('Clicking button inside adsgram-task');
-                innerButton.click();
+    if (taskElement) {
+        console.log('Dispatching AdsGram reward event');
+        
+        // Создаем событие которое понимает AdsGram SDK
+        const rewardEvent = new CustomEvent('reward', {
+            bubbles: true,
+            cancelable: true,
+            detail: {
+                type: 'task_completed',
+                reward: 1,
+                taskId: 'task-17961'
             }
-            else {
-                console.log('Button inside adsgram-task not found');
-            }
-    }
-    else {
+        });
+        
+        taskElement.dispatchEvent(rewardEvent);
+        console.log('Reward event dispatched');
+    } else {
         console.error('adsgram-task element not found');
     }
 }
