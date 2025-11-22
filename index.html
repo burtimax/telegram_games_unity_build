@@ -213,12 +213,20 @@
     <div id="bdb4668e659ee063bd17359de7eba3d726e43e70"></div>
 
     <!-- AdsGram Task Container -->
-    <adsgram-task
-   data-block-id='task-17961'
-   data-debug="true"
-   data-debug-console="false"
-   class="task"
-    ></adsgram-task>
+    <div class="adsgram-container">
+        <adsgram-task
+            data-block-id='task-17961'
+            data-debug='true'
+            data-debug-console='false'
+            class='task'
+        >
+            <p slot="reward" class="task_reward">+1 Тест</p>
+            <div slot="button" class="task_button">GO!</div>
+            <div slot="claim" class="task_button">...</div>
+            <div slot="done" class="task_button task_button_done">Готово</div>
+        </adsgram-task>
+    </div>
+
 
     <!-- Сообщения о статусе -->
     <div id="status-message" class="status-message"></div>
