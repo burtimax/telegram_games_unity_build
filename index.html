@@ -330,33 +330,49 @@ if ('serviceWorker' in navigator) {
         
         function showTaskAds() {
       try {
-        // Пробуем найти глобальный объект AdsGram
-        if (window.AdsGram && window.AdsGram.startTask) {
-            console.log('Using AdsGram API to start task');
-            window.AdsGram.startTask('task-17961');
+        const taskButton = document.querySelector('adsgram-task .task_button');
+        if (!taskButton) {
+            console.error('Task button not found');
+            return false;
+        }
+
+        console.log('Found task button, analyzing click handler...');
+        
+        // 1. Получаем все обработчики событий
+        const clickHandler = taskButton.onclick;
+        if (clickHandler) {
+            console.log('Calling onclick handler directly');
+            clickHandler.call(taskButton);
             return true;
         }
         
-        // Или через data-атрибуты
-        const taskElement = document.querySelector('adsgram-task');
-        if (taskElement && taskElement.startTask) {
-            console.log('Using element method to start task');
-            taskElement.startTask();
-            return true;
+        // 2. Ищем через getEventListeners (только в DevTools)
+        if (window.getEventListeners) {
+            const listeners = getEventListeners(taskButton);
+            console.log('Event listeners:', listeners);
+            if (listeners.click && listeners.click.length > 0) {
+                console.log('Calling registered click listener');
+                listeners.click[0].listener.call(taskButton);
+                return true;
+            }
         }
         
-        // Альтернатива: вызываем внутренние методы AdsGram
-        if (window.sad && window.sad.startTask) {
-            console.log('Using SAD API to start task');
-            window.sad.startTask('task-17961');
-            return true;
-        }
+        // 3. Создаем полноценное событие мыши
+        console.log('Dispatching full mouse event');
+        const mouseEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+            buttons: 1,
+            clientX: 100,
+            clientY: 100
+        });
         
-        console.error('No AdsGram API found');
-        return false;
+        taskButton.dispatchEvent(mouseEvent);
+        return true;
         
     } catch (error) {
-        console.error('Error calling AdsGram API:', error);
+        console.error('Error in showTaskAds:', error);
         return false;
     }
 }
