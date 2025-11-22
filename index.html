@@ -329,25 +329,35 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-      const taskElement = document.querySelector('adsgram-task');
-    if (taskElement) {
-        console.log('Dispatching AdsGram reward event');
+      try {
+        // Пробуем найти глобальный объект AdsGram
+        if (window.AdsGram && window.AdsGram.startTask) {
+            console.log('Using AdsGram API to start task');
+            window.AdsGram.startTask('task-17961');
+            return true;
+        }
         
-        // Создаем событие которое понимает AdsGram SDK
-        const rewardEvent = new CustomEvent('reward', {
-            bubbles: true,
-            cancelable: true,
-            detail: {
-                type: 'task_completed',
-                reward: 1,
-                taskId: 'task-17961'
-            }
-        });
+        // Или через data-атрибуты
+        const taskElement = document.querySelector('adsgram-task');
+        if (taskElement && taskElement.startTask) {
+            console.log('Using element method to start task');
+            taskElement.startTask();
+            return true;
+        }
         
-        taskElement.dispatchEvent(rewardEvent);
-        console.log('Reward event dispatched');
-    } else {
-        console.error('adsgram-task element not found');
+        // Альтернатива: вызываем внутренние методы AdsGram
+        if (window.sad && window.sad.startTask) {
+            console.log('Using SAD API to start task');
+            window.sad.startTask('task-17961');
+            return true;
+        }
+        
+        console.error('No AdsGram API found');
+        return false;
+        
+    } catch (error) {
+        console.error('Error calling AdsGram API:', error);
+        return false;
     }
 }
         // === Новый вызов полноэкранной рекламы Adextra ===
