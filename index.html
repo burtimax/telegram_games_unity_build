@@ -329,8 +329,28 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-            
+    const task = document.querySelector("adsgram-task");
+
+    if (task) {
+        console.log("Trying to start AdsGram task programmatically...");
+        
+        if (typeof task.start === "function") {
+            console.log("Starting task...");
+            task.start();   // ← запускает действие как будто нажали GO
+        } else {
+            console.log("Falling back to click...");
+            // fallback: попытка симулировать click через Shadow DOM
+            const shadowBtn = task.shadowRoot?.querySelector("[slot='button'], button");
+            if (shadowBtn) {
+                console.log("Clicking button...");
+                shadowBtn.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+            }
+        }
     }
+    else {
+        console.log("AdsGram task not found!");
+    }
+}
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
             const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
