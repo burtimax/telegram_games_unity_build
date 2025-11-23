@@ -329,53 +329,21 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-    const task = document.querySelector("adsgram-task");
 
-    if (!task) {
-        console.log("AdsGram task not found");
-        return;
-    }
-
-    console.log("Found AdsGram task. Searching internal button...");
-
-    // 1. Кнопка может появиться позже — ждём до 2 сек
-    const maxWait = 2000;
-    const interval = 100;
-    let waited = 0;
-
-    const timer = setInterval(() => {
-        const shadow = task.shadowRoot;
-        if (!shadow) {
-            waited += interval;
-            if (waited >= maxWait) {
-                console.log("No shadowRoot inside AdsGram task");
-                clearInterval(timer);
+    const taskElement = document.querySelector('adsgram-task');
+        if (taskElement) {
+            const innerButton = taskElement.querySelector('.task_button');
+            if (innerButton) {
+                console.log('Clicking button inside adsgram-task');
+                innerButton.click();
             }
-            return;
-        }
-
-        // 2. ищем настоящее действие
-        const button = shadow.querySelector("button, [role=button], .task-button, [slot='button']");
-        if (!button) {
-            waited += interval;
-            if (waited >= maxWait) {
-                console.log("Real AdsGram button not found inside shadowRoot");
-                clearInterval(timer);
+            else {
+                console.log('Button inside adsgram-task not found');
             }
-            return;
         }
-
-        clearInterval(timer);
-        console.log("Found real AdsGram button:", button);
-
-        // 3. Реальный natively-trusted клик
-        try {
-            button.click();               // ← именно этот клик делает запуск
-            console.log("AdsGram task started via real button.click()");
-        } catch (e) {
-            console.warn("Error clicking AdsGram button:", e);
+        else {
+            console.log('adsgram-task element not found');
         }
-    }, interval);
 }
 
 function debugTask() {
