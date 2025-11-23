@@ -230,6 +230,21 @@
 
     <!-- Сообщения о статусе -->
     <div id="status-message" class="status-message"></div>
+    
+    <button 
+    id="testTaskBtn" 
+    style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        font-size: 16px;
+        z-index: 99999;
+    "
+    onclick="showTaskAds()"
+>
+    Test Task Ads
+</button>
 
 <script>
 if ('serviceWorker' in navigator) {
