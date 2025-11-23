@@ -45,6 +45,7 @@
             display: none;
         }
         .adsgram-container {
+        display: none;
     position: absolute;
     top: 20px;
     left: 50%;
@@ -328,20 +329,7 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-            const taskElement = document.querySelector('adsgram-task');
-        if (taskElement) {
-            const innerButton = taskElement.querySelector('.task_button');
-            if (innerButton) {
-                console.log('Button inside adsgram-task found');
-                innerButton.click();
-            }
-            else {
-                console.log('Button inside adsgram-task not found');
-            }
-    }
-    else {
-        console.error('adsgram-task element not found');
-    }
+            
     }
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
