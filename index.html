@@ -329,26 +329,24 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
+            debugTask();
+}
+function debugTask() {
     const task = document.querySelector("adsgram-task");
+    if (!task) return console.log("task not found");
 
-    if (task) {
-        console.log("Trying to start AdsGram task programmatically...");
-        
-        if (typeof task.start === "function") {
-            console.log("Starting task...");
-            task.start();   // ← запускает действие как будто нажали GO
-        } else {
-            console.log("Falling back to click...");
-            // fallback: попытка симулировать click через Shadow DOM
-            const shadowBtn = task.shadowRoot?.querySelector("[slot='button'], button");
-            if (shadowBtn) {
-                console.log("Clicking button...");
-                shadowBtn.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
-            }
+    console.log("=== AdsGram METHODS ===");
+    for (let key of Object.getOwnPropertyNames(Object.getPrototypeOf(task))) {
+        if (typeof task[key] === "function") {
+            console.log("METHOD:", key);
         }
     }
-    else {
-        console.log("AdsGram task not found!");
+
+    console.log("=== AdsGram INSTANCE PROPS ===");
+    for (let key in task) {
+        if (typeof task[key] === "function") {
+            console.log("FUNC:", key);
+        }
     }
 }
         // === Новый вызов полноэкранной рекламы Adextra ===
