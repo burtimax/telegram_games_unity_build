@@ -45,7 +45,6 @@
             display: none;
         }
         .adsgram-container {
-        display: none;
     position: absolute;
     top: 20px;
     left: 50%;
@@ -329,45 +328,21 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-      try {
-        // Ищем глобальный объект AdsGram
-        let adsgramSDK = null;
-        
-        // Проверяем разные возможные места
-        const possiblePaths = [
-            'window.AdsGram',
-            'window.sad', 
-            'window.__SAD__',
-            'window.adsgram',
-            'document.querySelector("adsgram-task").__vue__',
-            'document.querySelector("adsgram-task")._sad'
-        ];
-        
-        for (let path of possiblePaths) {
-            try {
-                const obj = eval(path);
-                if (obj && typeof obj.startTask === 'function') {
-                    adsgramSDK = obj;
-                    console.log('Found AdsGram SDK at:', path);
-                    break;
-                }
-            } catch (e) {}
-        }
-        
-        if (adsgramSDK) {
-            console.log('Calling AdsGram startTask');
-            adsgramSDK.startTask('task-17961');
-            return true;
-        }
-        
-        console.error('No AdsGram SDK found');
-        return false;
-        
-    } catch (error) {
-        console.error('Error:', error);
-        return false;
+            const taskElement = document.querySelector('adsgram-task');
+        if (taskElement) {
+            const innerButton = taskElement.querySelector('.task_button');
+            if (innerButton) {
+                console.log('Button inside adsgram-task found');
+                innerButton.click();
+            }
+            else {
+                console.log('Button inside adsgram-task not found');
+            }
     }
-}
+    else {
+        console.error('adsgram-task element not found');
+    }
+    }
         // === Новый вызов полноэкранной рекламы Adextra ===
         function showAds() {
             const id = "bdb4668e659ee063bd17359de7eba3d726e43e70";
