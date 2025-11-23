@@ -336,6 +336,7 @@ if ('serviceWorker' in navigator) {
     }
 
     // Пытаемся найти кнопку слота 'button' внутри компонента
+    const buttonSlot = task.querySelector('[slot="button"]');
     if (buttonSlot) {
         // Триггерим клик
         buttonSlot.click();
