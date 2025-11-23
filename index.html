@@ -328,22 +328,48 @@ if ('serviceWorker' in navigator) {
         };
         document.body.appendChild(script);
         
-        function showTaskAds() {
-             const task = document.querySelector("adsgram-task");
+       function showTaskAds() {
+    const task = document.querySelector("adsgram-task");
     if (!task) {
         console.warn("AdsGram task not found");
         return;
     }
 
-    // Пытаемся найти кнопку слота 'button' внутри компонента
-    const buttonSlot = task.querySelector('[slot="button"]');
-    if (buttonSlot) {
-        // Триггерим клик
-        buttonSlot.click();
-        console.log("AdsGram task triggered via button click");
-    } else {
-        console.warn("Button slot not found inside AdsGram task");
+    // Функция проверки готовности компонента
+    function waitForTaskReady(retries = 20, interval = 200) {
+        return new Promise((resolve, reject) => {
+            let attempt = 0;
+
+            const check = () => {
+                attempt++;
+                // Проверяем, есть ли метод _firstRender и завершился ли рендер
+                if (task._firstRender) {
+                    resolve();
+                } else if (attempt >= retries) {
+                    reject("AdsGram task not ready after waiting");
+                } else {
+                    setTimeout(check, interval);
+                }
+            };
+
+            check();
+        });
     }
+
+    // Ждём готовности таски и вызываем клик
+    waitForTaskReady()
+        .then(() => {
+            const buttonSlot = task.querySelector('[slot="button"]');
+            if (buttonSlot) {
+                buttonSlot.click();
+                console.log("AdsGram task triggered via button click (ready version)");
+            } else {
+                console.warn("Button slot not found inside AdsGram task");
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
 
 function debugTask() {
