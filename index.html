@@ -329,8 +329,36 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
-            debugTask();
+    const task = document.querySelector("adsgram-task");
+    if (!task) return console.log("task missing");
+
+    // Получаем Shadow DOM HTML
+    const html = task.getHTML?.();
+    if (!html) return console.log("getHTML() returned empty");
+
+    // Создаём временный контейнер, чтобы распарсить HTML
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+
+    // Ищем реальную внутреннюю кнопку (она ВСЕГДА тут)
+    const realButton =
+        temp.querySelector(".task__button") ||
+        temp.querySelector("button") ||
+        temp.querySelector("[data-action=start]");
+
+    if (!realButton) {
+        console.log("real AdsGram button NOT found");
+        return;
+    }
+
+    console.log("👉 Triggering REAL internal AdsGram button...");
+    
+    // Вызываем настоящий клик, который понимает AdsGram
+    realButton.dispatchEvent(
+        new MouseEvent("click", { bubbles: true, cancelable: true })
+    );
 }
+
 function debugTask() {
     const task = document.querySelector("adsgram-task");
     if (!task) return console.log("task not found");
