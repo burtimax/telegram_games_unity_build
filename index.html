@@ -329,21 +329,20 @@ if ('serviceWorker' in navigator) {
         document.body.appendChild(script);
         
         function showTaskAds() {
+             const task = document.querySelector("adsgram-task");
+    if (!task) {
+        console.warn("AdsGram task not found");
+        return;
+    }
 
-    const taskElement = document.querySelector('adsgram-task');
-        if (taskElement) {
-            const innerButton = taskElement.querySelector('.task_button');
-            if (innerButton) {
-                console.log('Clicking button inside adsgram-task');
-                innerButton.click();
-            }
-            else {
-                console.log('Button inside adsgram-task not found');
-            }
-        }
-        else {
-            console.log('adsgram-task element not found');
-        }
+    // Пытаемся найти кнопку слота 'button' внутри компонента
+    if (buttonSlot) {
+        // Триггерим клик
+        buttonSlot.click();
+        console.log("AdsGram task triggered via button click");
+    } else {
+        console.warn("Button slot not found inside AdsGram task");
+    }
 }
 
 function debugTask() {
