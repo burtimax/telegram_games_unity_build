@@ -44,111 +44,94 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             display: none;
         }
-         .adsgram-container {
+        .adsgram-container {
         display: none;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    max-width: 350px;
-    width: calc(100% - 32px); /* 16px слева + 16px справа */
-}
-
- .adsgram-container.loaded {
-            display: flex;
-        }
-
-/* ПЕРЕОПРЕДЕЛЕННЫЕ СТИЛИ ДЛЯ ЕДИНОЙ БОЛЬШОЙ КНОПКИ */
-.task {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 0 !important; /* Убираем внутренние отступы */
-    border-radius: 16px;
-    background: transparent !important; /* Прозрачный фон */
-    font-family: 'Roboto', Arial, sans-serif;
-    color: white;
-    box-shadow: none !important; /* Убираем тень */
-    border: none !important; /* Убираем границу */
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-}
-
-/* Скрываем все внутренние элементы AdsGram кроме слота reward */
-.task ::slotted(:not([slot="reward"])) {
-    display: flex;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* Скрываем внутреннюю структуру AdsGram */
-.task > *:not(slot) {
-    display: none !important;
-}
-
-/* Стили для самой кнопки-награды */
-.task_reward {
-    display: flex;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 60px !important; /* Высокая кнопка */
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%) !important; /* Яркий монотонный градиент */
-    color: white !important;
-    font-weight: bold !important;
-    font-size: 18px !important;
-    padding: 0 !important;
-    border-radius: 16px !important;
-    margin: 0 !important;
-    box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4) !important;
-    text-align: center !important;
-    box-sizing: border-box !important;
-    cursor: pointer !important;
-    border: none !important;
-    transition: all 0.3s ease !important;
-    text-decoration: none !important;
-}
-
-/* Эффекты при наведении */
-.task_reward:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(255, 82, 82, 0.6) !important;
-}
-
-.task_reward:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 4px 15px rgba(255, 82, 82, 0.4) !important;
-}
-
-/* Адаптивность для мобильных устройств */
-@media (max-width: 480px) {
-    .adsgram-container {
-        max-width: 300px;
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        max-width: 350px;
         width: calc(100% - 32px);
     }
-    
-    .task_reward {
-        height: 55px !important;
-        font-size: 16px !important;
-    }
-}
 
-@media (max-width: 360px) {
-    .adsgram-container {
-        max-width: 280px;
+    .adsgram-container.loaded {
+        display: block;
     }
-    
-    .task_reward {
-        height: 50px !important;
-        font-size: 15px !important;
+
+    /* АГРЕССИВНОЕ СКРЫТИЕ ВСЕГО ЛИШНЕГО */
+    .task {
+        all: initial !important; /* Сбрасываем все стили */
+        display: block !important;
+        width: 100% !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
-}
+
+    /* Скрываем ВСЕ дочерние элементы кроме нашего слота */
+    .task * {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: none !important;
+    }
+
+    /* Показываем только наш слот reward */
+    .task [slot="reward"] {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: 60px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%) !important;
+        color: white !important;
+        font-weight: bold !important;
+        font-size: 18px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4) !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        text-decoration: none !important;
+        font-family: 'Roboto', Arial, sans-serif !important;
+    }
+
+    .task [slot="reward"]:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(255, 82, 82, 0.6) !important;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 480px) {
+        .adsgram-container {
+            max-width: 300px;
+        }
+        
+        .task [slot="reward"] {
+            height: 55px !important;
+            font-size: 16px !important;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .adsgram-container {
+            max-width: 280px;
+        }
+        
+        .task [slot="reward"] {
+            height: 50px !important;
+            font-size: 15px !important;
+        }
+    }
     </style>
     <script>
         // === Telegram Init ===
