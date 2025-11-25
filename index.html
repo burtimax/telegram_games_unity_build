@@ -194,7 +194,69 @@
 
     <!-- Сообщения о статусе -->
     <div id="status-message" class="status-message"></div>
+<script>
+// Ждем загрузки AdsGram и затем модифицируем
+function modifyAdsGramTask() {
+    const container = document.querySelector('.adsgram-container');
+    const task = document.querySelector('adsgram-task');
+    
+    if (container && task) {
+        // Даем AdsGram время на инициализацию
+        setTimeout(() => {
+            // Скрываем все элементы внутри компонента
+            const allElements = task.querySelectorAll('*');
+            allElements.forEach(element => {
+                if (element.getAttribute('slot') !== 'reward') {
+                    element.style.display = 'none';
+                    element.style.visibility = 'hidden';
+                    element.style.opacity = '0';
+                    element.style.width = '0';
+                    element.style.height = '0';
+                    element.style.padding = '0';
+                    element.style.margin = '0';
+                }
+            });
+            
+            // Стилизуем кнопку reward
+            const rewardButton = task.querySelector('[slot="reward"]');
+            if (rewardButton) {
+                rewardButton.style.cssText = `
+                    display: flex !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    width: 100% !important;
+                    height: 60px !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%) !important;
+                    color: white !important;
+                    font-weight: bold !important;
+                    font-size: 18px !important;
+                    border-radius: 16px !important;
+                    box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4) !important;
+                    cursor: pointer !important;
+                    transition: all 0.3s ease !important;
+                    text-decoration: none !important;
+                    font-family: 'Roboto', Arial, sans-serif !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    border: none !important;
+                `;
+            }
+            
+            console.log('AdsGram task modified');
+        }, 1000);
+    }
+}
 
+// Запускаем когда DOM загружен
+document.addEventListener('DOMContentLoaded', modifyAdsGramTask);
+
+// Также запускаем когда AdsGram загрузится
+if (typeof AdsGram !== 'undefined') {
+    modifyAdsGramTask();
+}
+</script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
