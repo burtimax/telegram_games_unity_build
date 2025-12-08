@@ -115,11 +115,21 @@ body {
     opacity: 0.6;
 }
 
+/* Стиль для последней строки */
+.last-line {
+    display: block;
+    margin-top: 0.8em; /* Увеличиваем отступ в 2 раза (стандартный line-height 1.4 = ~22px, умножаем на 2 = ~44px) */
+}
+
 /* Адаптация для мобильных устройств */
 @media (max-width: 768px) {
     #unity-info-text {
         font-size: 14px;
         bottom: 44px;
+    }
+    
+    .last-line {
+        margin-top: 1em; /* Немного больше для мобильных */
     }
 }
 
@@ -128,5 +138,9 @@ body {
         font-size: 12px;
         bottom: 44px;
         width: calc(100% - 32px);
+    }
+    
+    .last-line {
+        margin-top: 1.2em; /* Еще больше для маленьких экранов */
     }
 }
