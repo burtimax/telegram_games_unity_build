@@ -103,6 +103,7 @@ if ('serviceWorker' in navigator) {
 
         var canvas = document.querySelector("#unity-canvas");
         var logo = document.querySelector("#unity-logo");
+        var infoText = document.querySelector("#unity-info-text");
         var addBg = document.querySelector("#additional-background");
         var warningBanner = document.querySelector("#unity-warning");
 
@@ -162,6 +163,7 @@ if ('serviceWorker' in navigator) {
                 myGameInstance = unityInstance;
                 logo.style.display = "none";
                 addBg.style.display = "none";
+                infoText.style.display = "none";
             }).catch((message) => {
                 alert(message);
             });

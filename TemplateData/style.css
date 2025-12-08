@@ -87,7 +87,7 @@ body {
 /* Новый контейнер с текстом */
 #unity-info-text {
     position: absolute;
-    bottom: 44px; /* Отступ от низа */
+    bottom: 80px; /* Отступ от низа */
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 48px); /* Отступы от краёв 24px с каждой стороны */
