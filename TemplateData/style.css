@@ -86,7 +86,7 @@ body {
 }
 /* Новый контейнер с текстом */
 #unity-info-text {
-    position: fixed;
+    position: absolute;
     bottom: 44px; /* Отступ от низа */
     left: 50%;
     transform: translateX(-50%);
@@ -119,14 +119,14 @@ body {
 @media (max-width: 768px) {
     #unity-info-text {
         font-size: 14px;
-        bottom: 30px;
+        bottom: 44px;
     }
 }
 
 @media (max-width: 512px) {
     #unity-info-text {
         font-size: 12px;
-        bottom: 20px;
+        bottom: 44px;
         width: calc(100% - 32px);
     }
 }
